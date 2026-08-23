@@ -89,7 +89,7 @@
     opacity: 0.76;
   }
   .ai-legend {
-    margin: 0 0 14px;
+    margin-top: 24px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -169,30 +169,16 @@
       line-height: 1.58 !important;
     }
     #about {
-      grid-template-columns: minmax(0, 1fr) minmax(112px, 34vw) !important;
-      gap: 16px !important;
-      padding: 42px 0 44px !important;
-      align-items: start !important;
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+      padding: 56px 0 44px !important;
     }
-    #about h1 {
-      font-size: clamp(38px, 11vw, 48px) !important;
-      margin-bottom: 22px !important;
-    }
-    #about p {
-      font-size: 15px !important;
-      line-height: 1.5 !important;
-      max-width: none !important;
-    }
-    #about > div:nth-child(2) img[alt="Qiang Wu"] {
+    #about img[alt="Qiang Wu"] {
       width: 100% !important;
       height: auto !important;
-      aspect-ratio: 16 / 17 !important;
+      max-height: none !important;
+      aspect-ratio: 1 / 1 !important;
       object-fit: cover !important;
-    }
-    #about > div:nth-child(2) > div {
-      margin-top: 12px !important;
-      font-size: 9.5px !important;
-      line-height: 1.65 !important;
     }
     main section > div[style*="justify-content:space-between"] {
       flex-direction: column !important;
@@ -222,27 +208,7 @@
     header nav { padding-left: 16px !important; padding-right: 16px !important; }
     main { padding-left: 16px !important; padding-right: 16px !important; }
     main h1 { font-size: clamp(36px, 14vw, 46px) !important; }
-    #about {
-      grid-template-columns: minmax(0, 1fr) clamp(104px, 32vw, 126px) !important;
-      gap: 12px !important;
-      padding-top: 36px !important;
-    }
-    #about h1 {
-      font-size: clamp(32px, 10.5vw, 42px) !important;
-      margin-bottom: 18px !important;
-    }
-    #about p {
-      font-size: 13.8px !important;
-      line-height: 1.48 !important;
-    }
-    #about > div:first-child,
-    #about > div:nth-child(2) {
-      min-width: 0 !important;
-    }
-    #about > div:nth-child(2) > div {
-      font-size: 8.4px !important;
-      line-height: 1.62 !important;
-    }
+    #about { padding-top: 48px !important; }
     header nav > div { gap: 9px 12px !important; }
   }
 </style>
@@ -250,59 +216,28 @@
 
 <div style="background:var(--bg); color:var(--ink); font-family:'Newsreader',Georgia,serif; min-height:100vh;">
 
-  <!-- NAV -->
   <header style="position:sticky; top:0; z-index:50; background:var(--nav-bg); backdrop-filter:blur(8px); border-bottom:1px solid var(--border);">
-    <nav style="max-width:1080px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
-      <a href="#top" style="text-decoration:none; display:flex; align-items:baseline; gap:12px;">
+    <nav style="max-width:900px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+      <a href="Home.dc.html" style="text-decoration:none; display:flex; align-items:baseline; gap:12px;">
         <span style="font-size:20px; font-weight:500; letter-spacing:-0.01em;">Qiang Wu</span>
         <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);">Probability · Stat. Physics</span>
       </a>
       <div style="display:flex; align-items:center; gap:22px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em;">
-        <a href="#about" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">About</a>
-        <a href="Publications.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Publications</a>
+        <a href="Home.dc.html#about" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">About</a>
+        <a href="Publications.dc.html" style="text-decoration:none; color:var(--accent); padding-bottom:2px; border-bottom:1px solid var(--accent);">Publications</a>
         <a href="Teaching.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Teaching</a>
         <a href="Talks.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Talks</a>
       </div>
     </nav>
   </header>
 
-  <span id="top"></span>
-  <main style="max-width:1080px; margin:0 auto; padding:0 32px;">
+  <main style="max-width:900px; margin:0 auto; padding:0 32px;">
 
-    <!-- HERO / ABOUT -->
-    <section id="about" style="padding:88px 0 72px; display:grid; grid-template-columns:1fr 320px; gap:64px; align-items:start;">
-      <div>
-        <h1 style="font-size:52px; line-height:1.04; font-weight:400; letter-spacing:-0.02em; margin:0 0 28px;">Qiang Wu</h1>
-        <p style="font-size:20px; line-height:1.62; color:var(--ink2); margin:0 0 20px; max-width:56ch;">I am a Dunham Jackson Assistant Professor in the School of Mathematics at the <a target="_blank" rel="noopener" href="https://cse.umn.edu/math" style="color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accentborder);" style-hover="border-bottom:1px solid var(--accent);">University of Minnesota</a>. My primary research interests are <em style="color:var(--accent);">probability theory and statistical physics</em>, with a particular focus on spin glasses.</p>
-        <p style="font-size:17px; line-height:1.68; color:var(--text); margin:0; max-width:60ch;">I received my Ph.D. in mathematics from the <a target="_blank" rel="noopener" href="https://math.illinois.edu" style="color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accentborder);" style-hover="border-bottom:1px solid var(--accent);">University of Illinois at Urbana&#8209;Champaign</a>, advised by <a target="_blank" rel="noopener" href="https://psdey.web.illinois.edu/" style="color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accentborder);" style-hover="border-bottom:1px solid var(--accent);">Partha S. Dey</a>, and joined Minnesota in Fall 2023.</p>
-        <sc-if value="{{ showJobMarket }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:30px; display:inline-flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--badgetext); background:var(--badgebg); border:1px solid var(--badgeborder); padding:9px 15px; border-radius:2px;">
-          <span style="width:6px; height:6px; border-radius:50%; background:#b7862f; display:inline-block;"></span>
-          On the job market — Fall 2025
-        </div>
-        </sc-if>
-      </div>
-      <div>
-        <img src="prof1-3.png" alt="Qiang Wu" style="width:100%; height:340px; object-fit:cover; display:block; border:1px solid var(--imgborder); border-radius:3px;">
-        <sc-if value="{{ showContactCaption }}" hint-placeholder-val="{{ true }}">
-        <div style="margin-top:18px; font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.9; color:var(--text);">
-          <div style="color:var(--muted); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Contact</div>
-          <div style="color:var(--accent);">wuq [at] umn [dot] edu</div>
-          <div style="color:var(--text);">Vincent Hall 221</div>
-          <div style="color:var(--muted);">School of Mathematics, UMN</div>
-        </div>
-        </sc-if>
-      </div>
-    </section>
-
-    <!-- SELECTED PUBLICATIONS -->
-    <section style="padding:36px 0; border-top:1px solid var(--border);">
-      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px;">
-        <h2 style="font-size:15px; font-family:'IBM Plex Mono',monospace; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); margin:0;">Selected Publications</h2>
-        <a href="Publications.dc.html" style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--accent); text-decoration:none;" style-hover="text-decoration:underline;">Full publication list →</a>
-      </div>
-
-      <div id="selected-publication-ai-legend" class="ai-legend" aria-label="AI usage legend">
+    <section style="padding:80px 0 40px;">
+      <p style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin:0 0 18px;">Research</p>
+      <h1 style="font-size:46px; line-height:1.06; font-weight:400; letter-spacing:-0.02em; margin:0 0 18px;">Publications</h1>
+      <p style="font-size:17px; line-height:1.6; color:var(--text); margin:0; max-width:60ch;">Papers and preprints in probability theory and statistical physics. Alphabetical authorship convention unless starred.</p>
+      <div id="publication-ai-legend" class="ai-legend" aria-label="AI usage legend">
         <span class="ai-legend-label">AI use:</span>
         <span class="ai-legend-item" title="Assisted with main results." aria-label="One robot: Assisted with main results.">
           <span class="ai-legend-icons" aria-hidden="true"><img src="./bot.svg" alt=""></span>
@@ -313,13 +248,15 @@
           <span>Mostly AI generated.</span>
         </span>
       </div>
+    </section>
 
-      <ol class="publication-list" aria-describedby="selected-publication-ai-legend" style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column;">
+    <section style="padding:8px 0 40px;">
+      <ol class="publication-list" aria-describedby="publication-ai-legend" style="list-style:none; margin:0; padding:0; display:flex; flex-direction:column;">
 
-        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:22px 0; border-top:1px solid var(--border2);">
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
           <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2026</span>
           <div>
-            <div style="font-size:20px; line-height:1.4;"><em>Joint parameters estimation in cubic tensor model</em></div>
+            <div style="font-size:21px; line-height:1.4;"><em>Joint parameters estimation in cubic tensor model</em></div>
             <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://sites.stat.columbia.edu/sumitm/" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Sumit Mukherjee</a>, <a target="_blank" rel="noopener" href="https://www-users.cse.umn.edu/~arnab/" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Arnab Sen</a></div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
               <span style="color:var(--text);">preprint, 2026</span>
@@ -328,10 +265,10 @@
           </div>
         </li>
 
-        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:22px 0; border-top:1px solid var(--border2);">
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
           <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2026</span>
           <div>
-            <div style="font-size:20px; line-height:1.4;"><em>Sampling from the continuous random energy model in total variation distance</em></div>
+            <div style="font-size:21px; line-height:1.4;"><em>Sampling from the continuous random energy model in total variation distance</em></div>
             <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://holdenlee.github.io" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Holden Lee</a></div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
               <span style="color:var(--text);">accepted, <span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">Annals of Applied Probability</span></span>
@@ -340,10 +277,10 @@
           </div>
         </li>
 
-        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:22px 0; border-top:1px solid var(--border2);">
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
           <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2026</span>
           <div>
-            <div style="font-size:20px; line-height:1.4;"><em>Hypergraph counting and mixed p&#8209;spin glass models under replica symmetry</em></div>
+            <div style="font-size:21px; line-height:1.4;"><em>Hypergraph counting and mixed p&#8209;spin glass models under replica symmetry</em></div>
             <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://psdey.web.illinois.edu" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Partha S. Dey</a></div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
               <span style="color:var(--text);">accepted, <span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">Commun. Math. Phys.</span></span>
@@ -352,10 +289,10 @@
           </div>
         </li>
 
-        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:22px 0; border-top:1px solid var(--border2);">
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
           <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2024</span>
           <div>
-            <div style="font-size:20px; line-height:1.4;"><em>Joint parameter estimations for spin glasses</em></div>
+            <div style="font-size:21px; line-height:1.4;"><em>Joint parameter estimations for spin glasses</em></div>
             <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://sites.google.com/view/wkchen/home" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Wei-Kuo Chen</a>, <a target="_blank" rel="noopener" href="https://www-users.cse.umn.edu/~arnab/" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Arnab Sen</a></div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
               <span style="color:var(--text);">revision submitted, <span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">Annals of Statistics</span></span>
@@ -364,10 +301,33 @@
           </div>
         </li>
 
-        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:22px 0; border-top:1px solid var(--border2);">
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2024</span>
+          <div>
+            <div style="font-size:21px; line-height:1.4;"><em>Central limit theorem of overlap for the mean field Ghatak&#8211;Sherrington model</em></div>
+            <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://www.researchgate.net/scientific-contributions/Yueqi-Sheng-2133640586" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Yueqi Sheng</a></div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+              <span style="color:var(--text);"><span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">J. Math. Phys.</span> 65.10 (2024) 103302</span>
+              <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2312.15774" style="text-decoration:none; color:var(--accent); border:1px solid var(--accentborder); border-radius:2px; padding:2px 8px;" style-hover="background:var(--arxivhover);">arXiv:2312.15774</a>
+            </div>
+          </div>
+        </li>
+
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2024</span>
+          <div>
+            <div style="font-size:21px; line-height:1.4;"><em>Thouless&#8211;Anderson&#8211;Palmer equations for the multi&#8209;species Sherrington&#8211;Kirkpatrick model</em></div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+              <span style="color:var(--text);"><span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">J. Stat. Phys.</span> 191.7 (2024) 87</span>
+              <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.09099" style="text-decoration:none; color:var(--accent); border:1px solid var(--accentborder); border-radius:2px; padding:2px 8px;" style-hover="background:var(--arxivhover);">arXiv:2308.09099</a>
+            </div>
+          </div>
+        </li>
+
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
           <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2023</span>
           <div>
-            <div style="font-size:20px; line-height:1.4;"><em>Mean field spin glasses under weak external fields</em></div>
+            <div style="font-size:21px; line-height:1.4;"><em>Mean field spin glasses under weak external fields</em></div>
             <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://psdey.web.illinois.edu" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Partha S. Dey</a></div>
             <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
               <span style="color:var(--text);"><span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">Commun. Math. Phys.</span> 402 (2023) 1205&#8211;1258</span>
@@ -376,10 +336,37 @@
           </div>
         </li>
 
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2023</span>
+          <div>
+            <div style="font-size:21px; line-height:1.4;"><em>Approximation algorithms for the random field Ising model</em></div>
+            <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://www.tylerhelmuth.net" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Tyler Helmuth</a>, <a target="_blank" rel="noopener" href="https://holdenlee.github.io" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Holden Lee</a>, <a target="_blank" rel="noopener" href="https://willperkins.org" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Will Perkins</a>, <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=Q0xL7IMAAAAJ&hl=en" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Mohan Ravichandran</a></div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+              <span style="color:var(--text);"><span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">SIAM J. Discrete Math.</span> 37(3) (2023) 1610&#8211;1629</span>
+              <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2108.11889" style="text-decoration:none; color:var(--accent); border:1px solid var(--accentborder); border-radius:2px; padding:2px 8px;" style-hover="background:var(--arxivhover);">arXiv:2108.11889</a>
+            </div>
+          </div>
+        </li>
+
+        <li style="display:grid; grid-template-columns:64px 1fr; gap:28px; padding:24px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faint); padding-top:5px;">2021</span>
+          <div>
+            <div style="font-size:21px; line-height:1.4;"><em>Fluctuation results for the multi&#8209;species Sherrington&#8211;Kirkpatrick model in the replica symmetric regime</em></div>
+            <div style="font-size:16px; color:var(--text); margin-top:5px;">with <a target="_blank" rel="noopener" href="https://psdey.web.illinois.edu" style="color:var(--text); text-decoration:none; border-bottom:1px dotted var(--dotted);" style-hover="color:var(--accent); border-bottom-color:var(--accent);">Partha S. Dey</a></div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--meta); margin-top:9px; display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+              <span style="color:var(--text);"><span style="font-style:italic; font-family:'Newsreader',serif; font-size:15px;">J. Stat. Phys.</span> 185.3 (2021) 22</span>
+              <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.13381" style="text-decoration:none; color:var(--accent); border:1px solid var(--accentborder); border-radius:2px; padding:2px 8px;" style-hover="background:var(--arxivhover);">arXiv:2012.13381</a>
+            </div>
+          </div>
+        </li>
+
       </ol>
     </section>
 
-    <!-- FOOTER -->
+    <div style="padding:16px 0 24px;">
+      <a href="Home.dc.html" style="text-decoration:none; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--accent);" style-hover="text-decoration:underline;">← Back to home</a>
+    </div>
+
     <footer class="site-footer">
       <nav class="site-footer-links" aria-label="External profiles">
         <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=stUkcCoAAAAJ&amp;hl=en" aria-label="Google Scholar" title="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a>
@@ -390,13 +377,10 @@
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showJobMarket&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;showContactCaption&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+<script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   renderVals() {
-    return {
-      showJobMarket: this.props.showJobMarket ?? false,
-      showContactCaption: this.props.showContactCaption ?? true,
-    };
+    return {};
   }
 }
 </script>
