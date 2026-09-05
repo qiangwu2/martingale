@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Qiang Wu's Lean formalization of Talagrand's proof of the Parisi formula for the Sherrington-Kirkpatrick spin glass model.">
+<title>Lean Formalization | Qiang Wu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+  :root {
+    --bg:#faf9f7; --nav-bg:rgba(250,249,247,0.94);
+    --ink:#201f1b; --ink2:#33302a; --text:#57534a; --navlink:#4a463d;
+    --muted:#8a8474; --faint:#a39c89; --border:#d9d3c4; --border2:#e6e0d1;
+    --accent:#2f5575; --accent-soft:#dfe8ee; --sage:#dfe9e2; --sage-ink:#315441;
+    --warm:#eee4d8; --warm-ink:#805231; --code:#232824; --code-ink:#edf1eb;
+    --selection:#cfdae4;
+  }
+  body { margin:0; background:var(--bg); }
+  ::selection { background:var(--selection); }
+  a { color:inherit; }
+  .site-shell {
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;
+  }
+  .article-hero {
+    max-width:940px;
+    margin:0 auto;
+    padding:92px 32px 64px;
+    text-align:center;
+  }
+  .article-kicker,
+  .article-meta,
+  .proof-status,
+  .section-label,
+  .code-label,
+  .site-footer,
+  .repo-link {
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .article-kicker {
+    margin:0 0 26px;
+    color:var(--muted);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
+  .article-hero h1 {
+    max-width:880px;
+    margin:0 auto;
+    font-size:72px;
+    line-height:1.02;
+    font-weight:400;
+    letter-spacing:0;
+  }
+  .article-deck {
+    max-width:720px;
+    margin:28px auto 0;
+    color:var(--text);
+    font-size:22px;
+    line-height:1.5;
+  }
+  .article-meta {
+    margin-top:26px;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .proof-visual {
+    max-width:1020px;
+    margin:0 auto 78px;
+    padding:54px 56px 42px;
+    background:var(--sage);
+    border-top:1px solid #c7d5ca;
+    border-bottom:1px solid #c7d5ca;
+  }
+  .formula-line {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    align-items:center;
+    gap:28px;
+    min-height:134px;
+  }
+  .formula-term {
+    text-align:center;
+    font-size:34px;
+    line-height:1.18;
+    color:#243b2d;
+  }
+  .formula-term small {
+    display:block;
+    margin-bottom:12px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    line-height:1.4;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:#66806d;
+  }
+  .formula-equals {
+    color:#66806d;
+    font-size:34px;
+  }
+  .proof-track {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    margin-top:34px;
+    border-top:1px solid #b9cbbc;
+  }
+  .proof-step {
+    min-height:96px;
+    padding:20px 18px 10px;
+    border-left:1px solid #b9cbbc;
+  }
+  .proof-step:first-child { border-left:0; }
+  .proof-step strong {
+    display:block;
+    font-size:16px;
+    line-height:1.25;
+    font-weight:500;
+  }
+  .proof-status {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:10px;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .proof-status::before {
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:currentColor;
+  }
+  .proof-status.checked { color:var(--sage-ink); }
+  .proof-status.open { color:var(--warm-ink); }
+  .proof-visual figcaption {
+    margin-top:28px;
+    color:#607468;
+    font-size:13px;
+    line-height:1.5;
+    text-align:center;
+  }
+  .article-body {
+    width:100%;
+    max-width:700px;
+    margin:0 auto;
+    padding:0 32px 84px;
+  }
+  .article-body p {
+    margin:0 0 24px;
+    color:var(--ink2);
+    font-size:19px;
+    line-height:1.72;
+  }
+  .article-body .lead {
+    margin-bottom:34px;
+    color:var(--ink);
+    font-size:23px;
+    line-height:1.55;
+    font-style:italic;
+    font-weight:500;
+  }
+  .article-body h2 {
+    margin:68px 0 22px;
+    font-size:34px;
+    line-height:1.14;
+    font-weight:400;
+    letter-spacing:0;
+  }
+  .article-body a {
+    color:var(--accent);
+    text-decoration-thickness:1px;
+    text-underline-offset:3px;
+  }
+  .article-body a:hover { color:#183f61; }
+  .section-label {
+    display:block;
+    margin-bottom:14px;
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+  .status-list {
+    margin:34px 0 42px;
+    border-top:1px solid var(--border);
+  }
+  .status-row {
+    display:grid;
+    grid-template-columns:128px minmax(0,1fr);
+    gap:24px;
+    padding:20px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .status-row .status-word {
+    padding-top:3px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .status-word.checked { color:var(--sage-ink); }
+  .status-word.open { color:var(--warm-ink); }
+  .status-row p {
+    margin:0;
+    font-size:17px;
+    line-height:1.55;
+  }
+  .code-sample {
+    margin:36px 0 42px;
+    padding:0;
+    overflow:hidden;
+    background:var(--code);
+    border-radius:4px;
+  }
+  .code-label {
+    display:block;
+    padding:12px 18px;
+    color:#aebcaf;
+    border-bottom:1px solid #3a423b;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .code-sample pre {
+    margin:0;
+    padding:22px 20px 24px;
+    overflow-x:auto;
+    color:var(--code-ink);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    line-height:1.7;
+  }
+  .repo-band {
+    margin:66px 0 12px;
+    padding:30px 0;
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .repo-band h3 {
+    margin:0 0 10px;
+    font-size:25px;
+    line-height:1.2;
+    font-weight:400;
+  }
+  .repo-band p { margin-bottom:18px; font-size:17px; line-height:1.55; }
+  .repo-link {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:42px;
+    padding:10px 15px;
+    color:var(--bg) !important;
+    background:var(--ink);
+    border:1px solid var(--ink);
+    border-radius:3px;
+    font-size:11px;
+    line-height:1.3;
+    text-decoration:none !important;
+  }
+  .repo-link:hover { background:var(--accent); border-color:var(--accent); }
+  .article-notes {
+    margin-top:56px;
+    padding-top:24px;
+    border-top:1px solid var(--border2);
+    color:var(--text);
+  }
+  .article-notes p { color:var(--text); font-size:15px; line-height:1.6; }
+  .site-footer {
+    padding:46px 0 52px;
+    border-top:1px solid var(--border);
+    text-align:center;
+  }
+  .site-footer-links {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-bottom:14px;
+  }
+  .site-footer-links a {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:32px;
+    height:32px;
+    color:var(--text);
+    font-size:21px;
+    line-height:1;
+    text-decoration:none;
+    transition:color 150ms ease;
+  }
+  .site-footer-links a:hover { color:var(--accent); }
+  .site-footer-links a:focus-visible,
+  .repo-link:focus-visible {
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+  .site-footer-copyright {
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+  }
+  @media (max-width:900px) {
+    .article-hero h1 { font-size:56px; }
+    .proof-visual { margin-left:20px; margin-right:20px; }
+    .proof-track { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .proof-step:nth-child(3) { border-left:0; border-top:1px solid #b9cbbc; }
+    .proof-step:nth-child(4) { border-top:1px solid #b9cbbc; }
+  }
+  @media (max-width:760px) {
+    html { scroll-padding-top:150px; }
+    body { overflow-x:hidden; }
+    header nav {
+      padding:12px 20px 14px !important;
+      flex-wrap:wrap !important;
+      align-items:flex-start !important;
+      justify-content:flex-start !important;
+      gap:10px 14px !important;
+    }
+    header nav > a { width:100% !important; gap:8px !important; }
+    header nav > a span:first-child { font-size:19px !important; line-height:1 !important; }
+    header nav > a span:nth-child(2) {
+      max-width:18ch !important;
+      font-size:9.5px !important;
+      line-height:1.25 !important;
+    }
+    header nav > div {
+      width:100% !important;
+      flex-wrap:wrap !important;
+      justify-content:flex-start !important;
+      gap:10px 15px !important;
+      font-size:11px !important;
+      line-height:1.3 !important;
+    }
+    .article-hero { padding:58px 20px 44px; }
+    .article-hero h1 { font-size:44px; line-height:1.06; }
+    .article-deck { margin-top:22px; font-size:19px; line-height:1.5; }
+    .proof-visual {
+      margin:0 0 58px;
+      padding:38px 20px 30px;
+    }
+    .formula-line { grid-template-columns:1fr; gap:14px; min-height:0; }
+    .formula-term { font-size:27px; }
+    .formula-equals { font-size:26px; text-align:center; }
+    .proof-track { grid-template-columns:1fr; margin-top:30px; }
+    .proof-step,
+    .proof-step:nth-child(3),
+    .proof-step:nth-child(4) {
+      min-height:0;
+      padding:16px 6px;
+      border-left:0;
+      border-top:1px solid #b9cbbc;
+    }
+    .proof-step:first-child { border-top:0; }
+    .article-body { padding:0 20px 64px; }
+    .article-body p { font-size:18px; line-height:1.66; }
+    .article-body .lead { font-size:21px; line-height:1.52; }
+    .article-body h2 { margin-top:54px; font-size:30px; }
+    .status-row { grid-template-columns:1fr; gap:8px; }
+    .status-row p { font-size:17px; }
+    .code-sample { margin-left:-4px; margin-right:-4px; }
+    .code-sample pre { font-size:11.5px; }
+    .repo-link { width:100%; }
+  }
+  @media (max-width:420px) {
+    header nav { padding-left:16px !important; padding-right:16px !important; }
+    header nav > div { gap:9px 12px !important; }
+    .article-hero { padding-left:16px; padding-right:16px; }
+    .article-hero h1 { font-size:39px; }
+    .article-body { padding-left:16px; padding-right:16px; }
+    .proof-visual { padding-left:16px; padding-right:16px; }
+  }
+</style>
+</helmet>
+
+<div class="site-shell">
+  <header style="position:sticky; top:0; z-index:50; background:var(--nav-bg); backdrop-filter:blur(8px); border-bottom:1px solid var(--border);">
+    <nav style="max-width:1020px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+      <a href="Home.dc.html" style="text-decoration:none; display:flex; align-items:baseline; gap:12px;">
+        <span style="font-size:20px; font-weight:500;">Qiang Wu</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);">Probability · Stat. Physics</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:22px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em;">
+        <a href="Home.dc.html#about" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">About</a>
+        <a href="Publications.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Publications</a>
+        <a href="Teaching.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Teaching</a>
+        <a href="Talks.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Talks</a>
+        <a href="LeanFormalization.dc.html" aria-current="page" style="text-decoration:none; color:var(--accent); padding-bottom:2px; border-bottom:1px solid var(--accent);">Lean Formalization</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="article-hero">
+      <p class="article-kicker">Lean Formalization</p>
+      <h1>Formalizing the Parisi Formula in Lean</h1>
+      <p class="article-deck">A computer-checked development of Talagrand's proof for the Sherrington-Kirkpatrick spin glass model.</p>
+      <p class="article-meta">Project update · September 2026</p>
+    </section>
+
+    <figure class="proof-visual" aria-labelledby="proof-map-caption">
+      <div class="formula-line" aria-label="The limiting free entropy equals the Parisi variational value">
+        <div class="formula-term">
+          <small>Thermodynamic limit</small>
+          lim<sub>N &rarr; &infin;</sub> F<sub>N</sub>(&beta;, h)
+        </div>
+        <div class="formula-equals" aria-hidden="true">=</div>
+        <div class="formula-term">
+          <small>Parisi variational principle</small>
+          inf<sub>m,q</sub> P(&beta;, h; m, q)
+        </div>
+      </div>
+      <div class="proof-track" aria-label="Formalization progress">
+        <div class="proof-step">
+          <strong>Parisi recursion</strong>
+          <span class="proof-status checked">Checked</span>
+        </div>
+        <div class="proof-step">
+          <strong>Guerra identity</strong>
+          <span class="proof-status checked">Checked</span>
+        </div>
+        <div class="proof-step">
+          <strong>RSB upper bound</strong>
+          <span class="proof-status checked">Checked</span>
+        </div>
+        <div class="proof-step">
+          <strong>Theorem 2.2</strong>
+          <span class="proof-status open">In progress</span>
+        </div>
+      </div>
+      <figcaption id="proof-map-caption">The checked route follows Talagrand's 2006 proof. The final equality currently depends on the remaining Theorem 2.2 formalization.</figcaption>
+    </figure>
+
+    <article class="article-body">
+      <p class="lead">Spin glasses turn simple random interactions into a difficult global geometry. The Parisi formula identifies the limiting free entropy of the SK model through a variational principle. This project is translating Talagrand's proof into Lean 4, where every deduction is checked by the proof assistant.</p>
+
+      <p>The <a target="_blank" rel="noopener" href="https://annals.math.princeton.edu/2006/163-1/p04">Parisi formula</a> is one of the central results in the mathematical theory of spin glasses. Michel Talagrand's proof combines ideas from probability, analysis, and statistical physics, including Gaussian integration by parts, recursive transforms, interpolation, and control of replica overlaps.</p>
+
+      <h2>Why formalize this proof?</h2>
+      <p>Proofs in spin glass theory often compress substantial analytic detail. A differentiation under an expectation may rely on measurability, integrability, domination, continuity, and endpoint identities that are natural to a specialist but remain implicit on paper. Lean requires each of these dependencies to be stated and verified.</p>
+
+      <p>That extra precision serves two purposes. It gives an independently checkable proof artifact, and it exposes the reusable mathematical infrastructure needed to formalize more results in probability and statistical physics. A formal proof does not replace a readable mathematical explanation; it complements one by making the logical chain mechanically auditable.</p>
+
+      <h2>What is checked now</h2>
+      <p>The development follows Talagrand's 2006 proof in the SK model with exact covariance. Completed results are protected by build-time axiom checks, while unfinished targets remain explicit in the repository.</p>
+
+      <div class="status-list" aria-label="Current formalization status">
+        <div class="status-row">
+          <span class="status-word checked">Checked</span>
+          <p>The SK version of Theorem 2.1, Guerra's identity, including the nonnegative remainder estimate.</p>
+        </div>
+        <div class="status-row">
+          <span class="status-word checked">Checked</span>
+          <p>Guerra's finite-volume replica-symmetry-breaking upper bound and its thermodynamic upper-bound consequence.</p>
+        </div>
+        <div class="status-row">
+          <span class="status-word checked">Checked</span>
+          <p>The conditional deduction of the Parisi formula from Theorems 2.1 and 2.2, together with the supporting Parisi recursion and Gaussian calculus.</p>
+        </div>
+        <div class="status-row">
+          <span class="status-word open">In progress</span>
+          <p>Talagrand's Theorem 2.2. The principal remaining input is the coupled-replica overlap concentration estimate.</p>
+        </div>
+      </div>
+
+      <div class="code-sample" aria-label="Excerpt from the Lean formalization">
+        <span class="code-label">Targets/Talagrand.lean</span>
+        <pre><code>theorem guerra_rsb_bound ... :
+    free_entropy ... &le; parisiFunctional s &beta; h := by
+  obtain &lang;hcont, Rem, hRem, hderiv&rang; :=
+    guerra_identity hN &beta; h sk s
+  ...</code></pre>
+      </div>
+
+      <h2>The current frontier</h2>
+      <p>The full Parisi formula is formalized modulo Theorem 2.2. The remaining work centers on the interpolation and optimality estimates that establish coupled-replica overlap concentration. The later convergence deduction from that concentration input is already represented in Lean.</p>
+
+      <p>This boundary is deliberately visible: a successful build checks the completed results, but it is not presented as certification of the unfinished theorem. The repository's roadmap records which statements are axiom-clean, which deductions are conditional, and where proof placeholders remain.</p>
+
+      <h2>Reading the development</h2>
+      <p>The main proof route begins in <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean"><code>Targets/Talagrand.lean</code></a>. The <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">Guerra audit</a> checks dependencies of the completed results, while the <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> and <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/blueprint/blueprint.tex">blueprint</a> connect the Lean files to the mathematical proof.</p>
+
+      <p>The project uses <a target="_blank" rel="noopener" href="https://lean-lang.org/">Lean 4</a> and Mathlib, together with existing formalized spin glass infrastructure. Source credits and pinned dependencies are documented in the repository.</p>
+
+      <section class="repo-band" aria-labelledby="repo-heading">
+        <span class="section-label">Open development</span>
+        <h3 id="repo-heading">Follow the working proof on GitHub</h3>
+        <p>The source, detailed progress notes, and verification commands are available in the public repository.</p>
+        <a class="repo-link" target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula">View the working repository&nbsp;&#8599;</a>
+      </section>
+
+      <div class="article-notes">
+        <span class="section-label">Reference</span>
+        <p>Michel Talagrand, <a target="_blank" rel="noopener" href="https://annals.math.princeton.edu/2006/163-1/p04"><em>The Parisi formula</em></a>, Annals of Mathematics 163 (2006), 221-263.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="site-footer-links" aria-label="External profiles">
+      <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=zwJ5e2IAAAAJ" aria-label="Google Scholar" title="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a>
+    </nav>
+    <span class="site-footer-copyright">© 2026 Qiang Wu</span>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>
