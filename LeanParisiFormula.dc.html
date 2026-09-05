@@ -60,7 +60,7 @@
     <article class="prose" aria-label="Parisi formalization project note">
       <p>I am working on a Lean 4 formalization of Talagrand’s proof of the Parisi formula. The project follows his 2006 <em>Annals of Mathematics</em> paper, in the Sherrington–Kirkpatrick (SK) model with exact covariance.</p>
 
-      <p>The formula identifies the limiting free entropy of the SK model with the Parisi variational value. The aim here is to formalize the published proof, reusing Mathlib and existing spin-glass libraries wherever possible.</p>
+      <p>The Parisi formula characterizes the limit of the normalized free energy of the SK model through a variational principle. The aim here is to formalize the published proof, reusing Mathlib and existing spin-glass libraries wherever possible.</p>
 
       <aside class="proof-note" aria-label="Completion status">
         <strong>The full proof is not yet complete.</strong>
@@ -69,8 +69,8 @@
 
       <section id="formal-statement" aria-labelledby="formal-statement-title">
         <h2 id="formal-statement-title">What the Lean statement says</h2>
-        <p>For inverse temperature β &gt; 0 and external field <i>h</i>, the target is convergence of the expected log partition function per spin, <i>s</i><sub>N</sub> = E[log <i>Z</i><sub>N</sub>]/<i>N</i>, to the Parisi value as <i>N</i> tends to infinity. This is a theorem about a Gaussian spin system, not a numerical approximation to the variational problem.</p>
-        <p>A finite replica-symmetry-breaking scheme is represented by <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">RSBScheme</a>: overlap levels and masses, together with their ordering and endpoint conditions. The Gaussian recursion defines a functional for each scheme; <i>parisiValue</i> is its infimum over all schemes and all finite depths. The formalization already proves that this infimum is over a nonempty, bounded-below set, and that a minimizer exists at each fixed depth.</p>
+        <p>For inverse temperature β &gt; 0 and external field <i>h</i>, the target is convergence of the normalized free energy, <i>s</i><sub>N</sub> = E[log <i>Z</i><sub>N</sub>]/<i>N</i>, to the value given by the Parisi formula as <i>N</i> tends to infinity. This is a theorem about a Gaussian spin system, not a numerical approximation to the variational problem.</p>
+        <p>A <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">finite replica-symmetry-breaking scheme</a> consists of overlap levels and masses satisfying ordering and endpoint conditions. The Gaussian recursion defines the Parisi functional for each scheme; the Parisi formula takes its infimum over all schemes and all finite numbers of levels. The formalization already proves that this infimum is over a nonempty, bounded-below set, and that a minimizer exists for each fixed number of levels.</p>
       </section>
 
       <section id="status" aria-labelledby="status-title">
@@ -82,7 +82,7 @@
           </div>
           <details class="proof-step is-checked map-foundation">
             <summary><span class="step-title">Parisi functional &amp; fixed-depth minimizers</span><span class="step-state">Checked</span></summary>
-            <div class="step-detail">The variational value is well-defined, and the fixed-depth minimum exists. These foundations support the final argument. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">Definitions and proofs ↗</a></div>
+            <div class="step-detail">The infimum of the Parisi functional over all finite schemes is well-defined, and a minimizer exists for each fixed number of levels. These results support the final argument. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">Definitions and proofs ↗</a></div>
           </details>
           <div class="proof-lanes">
             <div class="proof-lane" role="group" aria-labelledby="upper-route-title">
@@ -94,7 +94,7 @@
                 </details></li>
                 <li><details class="proof-step is-checked">
                   <summary><span class="step-title">Guerra’s upper bound</span><span class="step-subtitle">Finite volume → thermodynamic bound</span><span class="step-state">Checked</span></summary>
-                  <div class="step-detail">The finite-volume free entropy lies below each finite-step functional; the corresponding limsup bound is also proved. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Upper-bound deductions ↗</a></div>
+                  <div class="step-detail">The normalized free energy in finite volume lies below the Parisi functional evaluated at any finite scheme; the corresponding limsup bound is also proved. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Upper-bound deductions ↗</a></div>
                 </details></li>
               </ol>
             </div>
@@ -103,7 +103,7 @@
               <ol>
                 <li><details class="proof-step is-open">
                   <summary><span class="step-title">Theorem 2.4</span><span class="step-subtitle">Uniform two-replica estimate · §§3–5</span><span class="step-state">Open · current work</span></summary>
-                  <div class="step-detail">Replica derivatives and scalar bounds are available. The combined interpolation inequality, higher mass estimates and remaining overlap cases still need to be completed. <a href="#recent-work">Recent checked ingredients ↓</a></div>
+                  <div class="step-detail">Replica derivative formulas and scalar bounds are proved. The interpolation inequality, bounds on second derivatives with respect to the mass parameters, and remaining overlap cases still need to be completed. <a href="#recent-work">Recent checked results ↓</a></div>
                 </details></li>
                 <li><details class="proof-step is-conditional">
                   <summary><span class="step-title">Concentration ⇒ convergence</span><span class="step-subtitle">Proposition 2.3 and the gap estimate</span><span class="step-state">Checked implication</span></summary>
@@ -124,21 +124,21 @@
           <figcaption id="proof-map-caption">A simplified map of the argument at the <a href="https://github.com/qiangwu2/ParisiFormula/tree/ee78153e9140ff9a4cfa51ce22a25b0ae898202d">5 September 2026 checkpoint</a>—not the full Lean dependency graph. “Checked implication” certifies a deduction, not its missing hypothesis.</figcaption>
         </figure>
         <p>The checked <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Guerra identity</a> expresses the interpolation derivative as an explicit correction minus a nonnegative, mass-weighted squared-overlap remainder. Integrating this identity gives the upper bound. The proof includes Gaussian integration by parts, differentiation through the finite cascade and its outer expectation, and continuity at the interpolation endpoints.</p>
-        <p>The final declaration, <i>parisi_formula</i>, already deduces convergence from this upper bound and Theorem 2.2. It still depends on the unfinished theorem: having that last deduction written in Lean does not make the full result complete.</p>
+        <p>The final deduction of the Parisi formula from this upper bound and Theorem 2.2 is already written in Lean. It still depends on the unfinished theorem: having that last deduction written does not make the full result complete.</p>
       </section>
 
       <section id="lower-bound" aria-labelledby="lower-bound-title">
         <h2 id="lower-bound-title">The route to Theorem 2.2</h2>
-        <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize at their own depth and are sufficiently close to the Parisi value, Theorem 2.2 asks for convergence of the interpolated pressure on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
+        <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize the Parisi functional at their own number of levels and whose functional values are sufficiently close to the infimum over all finite schemes, Theorem 2.2 asserts convergence of the interpolated normalized free energy on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
         <p>The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">concentration-to-convergence argument</a> is checked: an explicit overlap-concentration hypothesis controls the interpolation remainder, and a differential inequality forces the gap to vanish. The missing input is the uniform two-replica estimate of Theorem 2.4, obtained through the interpolation and optimality arguments in Sections 3–5.</p>
-        <p>To finish that estimate, we still need to assemble the full replica-covariance derivative inequality, integrate it with endpoint control, establish the remaining uniform second-mass and optimality bounds, and cover the outstanding overlap and sign cases. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> records the checked inputs and the precise remaining obligations.</p>
+        <p>To finish that estimate, we still need to combine the replica derivative formulas to prove the interpolation inequality, integrate it with endpoint control, establish uniform bounds on second derivatives with respect to the mass parameters and the remaining optimality estimates, and cover the outstanding overlap and sign cases. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> records the proved results and the precise remaining steps.</p>
       </section>
 
       <section id="recent-work" aria-labelledby="recent-work-title">
         <h2 id="recent-work-title">Recent work inside the formalization</h2>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/CoupledReplicaHessian.lean">Replica derivatives.</a> The Hessian of the actual nested two-replica recursion is now expressed through its normalized replica weights. Its averaged SK covariance contraction and the individual variance-level heat identities are also checked. These identify the pieces of the second interpolation; their combined inequality is still to be proved.</p>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4USecond.lean">Scalar curvature.</a> The negative-square identity behind Talagrand’s <i>U</i>″ has been propagated through the full outer recursion. This proves −1 ≤ <i>U</i>″ ≤ 0 at interior variance, with the baseline-mass restriction below one required by the current <i>U</i>′ identity. It does not assert second derivatives at the variance endpoints.</p>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/ParisiMassUniform.lean">Uniform mass estimates.</a> First and second mass derivatives of the scalar Gaussian transform are bounded uniformly, including mass zero. The first-derivative bound also extends through the full nested recursion with a constant independent of depth. The corresponding full nested second-derivative bound remains open.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/CoupledReplicaHessian.lean">Replica derivatives.</a> The Hessian of the two-replica recursion is now expressed through its normalized replica weights. The contribution from the SK covariance after averaging over the disorder, and the derivative formulas for each Gaussian variance parameter, are also checked. These identify the terms in the second interpolation; the inequality obtained by combining them is still to be proved.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4USecond.lean">Curvature of Talagrand’s auxiliary function.</a> The identity expressing <i>U</i>″ as a negative average of a square has been proved through all successive Gaussian averages. This gives −1 ≤ <i>U</i>″ ≤ 0 in the interior of the variance interval, when the relevant mass parameter is less than one, as required by the current proof of the <i>U</i>′ identity. It does not assert second derivatives at the variance endpoints.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/ParisiMassUniform.lean">Derivatives with respect to mass parameters.</a> The first and second derivatives of the scalar Gaussian transform with respect to its mass parameter are bounded uniformly, including when that parameter is zero. The first-derivative bound also extends through the full recursion with a constant independent of the number of levels. The corresponding second-derivative bound for the full recursion remains open.</p>
       </section>
 
       <section id="approach" aria-labelledby="approach-title">
@@ -152,8 +152,8 @@
           </ol>
           <figcaption id="workflow-caption">The working cycle for each lemma. A failed check sends the argument back for revision.</figcaption>
         </figure>
-        <p>Much of the work is in the analytic details: justifying differentiation under an expectation, checking integrability, and treating zero masses without dividing by zero. Mathlib supplies general analysis and probability tools; the pinned RSAT dependency supplies reusable spin-glass and finite-recursion results. Local proofs connect these results to Talagrand’s definitions, checking their hypotheses, signs and normalization.</p>
-        <p>The repository separates the supporting library from the main proof targets. Its full check script builds both and runs <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">axiom regression checks</a> on completed results. These reject dependencies on Lean’s unfinished-proof placeholder, <i>sorryAx</i>, or additional axioms beyond the standard Lean foundations. Open targets remain explicitly marked: a successful build alone is not a certificate for the full Parisi formula.</p>
+        <p>Much of the work is in the analytic details: justifying differentiation under an expectation, checking integrability, and treating zero masses without dividing by zero. Mathlib supplies general analysis and probability tools; the RSAT library supplies reusable spin-glass and finite-recursion results. Local proofs connect these results to Talagrand’s definitions, checking their hypotheses, signs and normalization.</p>
+        <p>The repository separates supporting lemmas from the main theorems. Its verification script checks both and runs <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">checks of proof dependencies</a> on completed results. These reject dependence on unfinished proof placeholders or axioms beyond the standard Lean foundations. Unfinished results remain explicitly marked: a successful build alone is not a certificate for the full Parisi formula.</p>
       </section>
 
       <section class="resources" id="source" aria-labelledby="source-title">
