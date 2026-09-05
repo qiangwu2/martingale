@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Qiang Wu's Lean formalization of Talagrand's proof of the Parisi formula for the Sherrington-Kirkpatrick spin glass model.">
+<meta name="description" content="Qiang Wu's Lean formalization projects in probability theory and statistical physics.">
 <title>Lean Formalization | Qiang Wu</title>
 <script src="./support.js"></script>
 </head>
@@ -12,828 +12,89 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-<style>
-  * { box-sizing:border-box; }
-  html { scroll-behavior:smooth; scroll-padding-top:88px; }
-  :root {
-    --bg:#faf9f7; --nav-bg:rgba(250,249,247,0.94);
-    --ink:#201f1b; --ink2:#33302a; --text:#57534a; --navlink:#4a463d;
-    --muted:#8a8474; --faint:#a39c89; --border:#d9d3c4; --border2:#e6e0d1;
-    --accent:#2f5575; --accent-soft:#e3ebf0; --selection:#cfdae4;
-    --board:#262923; --board-text:#f3f1e9; --board-muted:#aeb4aa;
-    --checked:#8fb59c; --active:#d7a86a; --pending:#b7b4aa;
-    --code:#1f221e; --code-border:#3a3f38;
-  }
-  body { margin:0; background:var(--bg); }
-  ::selection { background:var(--selection); }
-  a { color:inherit; }
-  .site-shell {
-    min-height:100vh;
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Newsreader',Georgia,serif;
-  }
-  .page-main {
-    max-width:1080px;
-    margin:0 auto;
-    padding:0 32px;
-  }
-  .mono,
-  .hero-overline,
-  .hero-status,
-  .project-facts,
-  .board-label,
-  .node-state,
-  .article-index,
-  .section-number,
-  .status-word,
-  .code-label,
-  .repo-link,
-  .site-footer {
-    font-family:'IBM Plex Mono',monospace;
-  }
-  .project-hero {
-    padding:72px 0 54px;
-    border-bottom:1px solid var(--border);
-  }
-  .hero-topline {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:24px;
-    margin-bottom:43px;
-  }
-  .hero-overline {
-    color:var(--muted);
-    font-size:10.5px;
-    line-height:1.4;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-  }
-  .hero-status {
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    color:#80592f;
-    font-size:10px;
-    line-height:1.4;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-  }
-  .hero-status::before {
-    content:"";
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:var(--active);
-  }
-  .hero-copy {
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 230px;
-    gap:74px;
-    align-items:end;
-  }
-  .hero-title-wrap {
-    padding-left:25px;
-    border-left:3px solid var(--accent);
-  }
-  .hero-title-wrap h1 {
-    max-width:780px;
-    margin:0;
-    font-size:59px;
-    line-height:1.03;
-    font-weight:400;
-    letter-spacing:0;
-  }
-  .hero-deck {
-    max-width:720px;
-    margin:24px 0 0;
-    color:var(--text);
-    font-size:21px;
-    line-height:1.52;
-  }
-  .project-facts {
-    margin:0;
-    padding:0;
-    color:var(--muted);
-    font-size:10px;
-    line-height:1.45;
-  }
-  .project-facts div {
-    display:grid;
-    grid-template-columns:62px 1fr;
-    gap:14px;
-    padding:10px 0;
-    border-top:1px solid var(--border2);
-  }
-  .project-facts div:first-child { border-top:0; }
-  .project-facts dt {
-    color:var(--faint);
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-  }
-  .project-facts dd { margin:0; color:var(--ink2); }
-  .hero-actions {
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px 20px;
-    align-items:center;
-    margin-top:29px;
-    padding-left:28px;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11px;
-  }
-  .hero-actions a { color:var(--accent); text-decoration:none; }
-  .hero-actions a span {
-    padding-bottom:2px;
-    border-bottom:1px solid #aebfcb;
-  }
-  .hero-actions a:hover span { border-bottom-color:var(--accent); }
-  .proof-board {
-    display:grid;
-    grid-template-columns:34% 66%;
-    margin:44px 0 0;
-    color:var(--board-text);
-    background:var(--board);
-    border:1px solid var(--board);
-  }
-  .theorem-pane {
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    min-height:330px;
-    padding:34px 32px 30px;
-    border-right:1px solid #464a43;
-  }
-  .board-label {
-    color:var(--board-muted);
-    font-size:9.5px;
-    line-height:1.4;
-    letter-spacing:0.09em;
-    text-transform:uppercase;
-  }
-  .theorem-formula {
-    margin:38px 0;
-    font-size:31px;
-    line-height:1.32;
-    color:var(--board-text);
-  }
-  .theorem-note {
-    max-width:31ch;
-    margin:0;
-    color:var(--board-muted);
-    font-size:14px;
-    line-height:1.5;
-  }
-  .dependency-pane {
-    min-width:0;
-    padding:34px 34px 30px;
-  }
-  .board-path,
-  .board-branch {
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr) 22px minmax(0,1fr);
-    gap:9px;
-    align-items:stretch;
-  }
-  .board-path { margin-top:30px; }
-  .board-branch {
-    grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr);
-    width:64%;
-    margin:24px 0 0 auto;
-    padding-top:24px;
-    border-top:1px solid #464a43;
-  }
-  .board-node {
-    min-width:0;
-    padding:15px 14px 13px;
-    border:1px solid #575c53;
-  }
-  .board-node strong {
-    display:block;
-    min-height:40px;
-    font-size:15.5px;
-    line-height:1.28;
-    font-weight:500;
-  }
-  .node-state {
-    display:flex;
-    align-items:center;
-    gap:6px;
-    margin-top:9px;
-    color:var(--board-muted);
-    font-size:8.5px;
-    line-height:1.4;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-  }
-  .node-state::before {
-    content:"";
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:currentColor;
-  }
-  .board-node.checked .node-state { color:var(--checked); }
-  .board-node.active .node-state { color:var(--active); }
-  .board-node.pending .node-state { color:var(--pending); }
-  .board-arrow {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#7c8278;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:15px;
-  }
-  .proof-board figcaption {
-    grid-column:1 / -1;
-    padding:16px 20px;
-    color:#bdc2b8;
-    background:#20231f;
-    border-top:1px solid #464a43;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:9.5px;
-    line-height:1.55;
-    letter-spacing:0.02em;
-  }
-  .reading-layout {
-    display:grid;
-    grid-template-columns:164px minmax(0,720px);
-    gap:64px;
-    justify-content:center;
-    align-items:start;
-    padding:78px 0 88px;
-  }
-  .article-index {
-    position:sticky;
-    top:94px;
-    color:var(--muted);
-    font-size:10px;
-    line-height:1.45;
-  }
-  .index-title {
-    display:block;
-    margin-bottom:17px;
-    color:var(--ink2);
-    font-weight:500;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-  }
-  .article-index nav {
-    display:flex;
-    flex-direction:column;
-    border-top:1px solid var(--border);
-  }
-  .article-index nav a {
-    padding:10px 0;
-    color:var(--muted);
-    border-bottom:1px solid var(--border2);
-    text-decoration:none;
-  }
-  .article-index nav a:hover { color:var(--accent); }
-  .index-meta {
-    margin-top:28px;
-    padding-top:17px;
-    border-top:1px solid var(--border);
-  }
-  .index-meta span {
-    display:block;
-    margin-bottom:5px;
-    color:var(--faint);
-    font-size:8.5px;
-    letter-spacing:0.07em;
-    text-transform:uppercase;
-  }
-  .index-meta strong {
-    display:block;
-    margin-bottom:15px;
-    color:var(--ink2);
-    font-family:'Newsreader',Georgia,serif;
-    font-size:14px;
-    line-height:1.35;
-    font-weight:400;
-  }
-  .article-body { min-width:0; }
-  .article-body p {
-    margin:0 0 24px;
-    color:var(--ink2);
-    font-size:19px;
-    line-height:1.72;
-  }
-  .article-body a {
-    color:var(--accent);
-    text-decoration-thickness:1px;
-    text-underline-offset:3px;
-  }
-  .article-body .lead {
-    margin:0;
-    padding:0 0 42px 26px;
-    color:var(--ink);
-    border-left:3px solid var(--active);
-    font-size:23px;
-    line-height:1.57;
-    font-style:italic;
-    font-weight:500;
-  }
-  .article-opening > p:not(.lead) { margin-top:37px; }
-  .article-section {
-    padding:62px 0 10px;
-    scroll-margin-top:90px;
-  }
-  .section-heading {
-    display:grid;
-    grid-template-columns:42px minmax(0,1fr);
-    gap:15px;
-    align-items:start;
-    margin:0 0 24px;
-    padding-top:19px;
-    border-top:1px solid var(--border);
-  }
-  .section-number {
-    padding-top:6px;
-    color:var(--faint);
-    font-size:10px;
-    line-height:1.4;
-  }
-  .section-heading h2 {
-    margin:0;
-    font-size:34px;
-    line-height:1.15;
-    font-weight:400;
-    letter-spacing:0;
-  }
-  .status-list {
-    margin:34px 0 42px;
-    border-top:1px solid var(--border);
-  }
-  .status-row {
-    display:grid;
-    grid-template-columns:118px minmax(0,1fr);
-    gap:24px;
-    padding:20px 0;
-    border-bottom:1px solid var(--border);
-  }
-  .status-word {
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    align-self:start;
-    padding-top:4px;
-    font-size:9.5px;
-    line-height:1.4;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-  }
-  .status-word::before {
-    content:"";
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:currentColor;
-  }
-  .status-word.checked { color:#477159; }
-  .status-word.open { color:#8a5d2d; }
-  .status-row p {
-    margin:0;
-    font-size:17px;
-    line-height:1.56;
-  }
-  .code-sample {
-    margin:40px 0 10px;
-    overflow:hidden;
-    color:#eef1eb;
-    background:var(--code);
-    border:1px solid var(--code-border);
-    border-radius:4px;
-  }
-  .code-label {
-    display:block;
-    padding:12px 18px;
-    color:#aebcaf;
-    border-bottom:1px solid var(--code-border);
-    font-size:9.5px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-  }
-  .code-sample pre {
-    margin:0;
-    padding:23px 20px 25px;
-    overflow-x:auto;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12.5px;
-    line-height:1.7;
-  }
-  .repo-band {
-    display:grid;
-    grid-template-columns:minmax(0,1fr) auto;
-    gap:32px;
-    align-items:end;
-    margin:68px 0 0;
-    padding:30px;
-    background:var(--accent-soft);
-    border:1px solid #c8d4dc;
-    border-radius:4px;
-  }
-  .repo-band .board-label { color:#657d8f; }
-  .repo-band h3 {
-    margin:10px 0 9px;
-    font-size:27px;
-    line-height:1.2;
-    font-weight:400;
-  }
-  .repo-band p { margin:0; color:var(--text); font-size:16.5px; line-height:1.55; }
-  .repo-link {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:42px;
-    padding:10px 15px;
-    color:var(--bg) !important;
-    background:var(--ink);
-    border:1px solid var(--ink);
-    border-radius:3px;
-    font-size:10.5px;
-    line-height:1.3;
-    text-decoration:none !important;
-    white-space:nowrap;
-  }
-  .repo-link:hover { background:var(--accent); border-color:var(--accent); }
-  .article-notes {
-    margin-top:54px;
-    padding-top:24px;
-    border-top:1px solid var(--border);
-  }
-  .article-notes p { color:var(--text); font-size:15px; line-height:1.6; }
-  .article-notes .board-label { color:var(--muted); }
-  .back-link {
-    max-width:948px;
-    margin:0 auto;
-    padding:20px 0 28px;
-    border-top:1px solid var(--border);
-  }
-  .back-link a {
-    color:var(--accent);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:12px;
-    text-decoration:none;
-  }
-  .back-link a:hover { text-decoration:underline; text-underline-offset:3px; }
-  .site-footer {
-    padding:46px 0 52px;
-    border-top:1px solid var(--border);
-    text-align:center;
-  }
-  .site-footer-links {
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:20px;
-    margin-bottom:14px;
-  }
-  .site-footer-links a {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:32px;
-    height:32px;
-    color:var(--text);
-    font-size:21px;
-    line-height:1;
-    text-decoration:none;
-  }
-  .site-footer-links a:hover { color:var(--accent); }
-  .site-footer-links a:focus-visible,
-  .repo-link:focus-visible,
-  .hero-actions a:focus-visible,
-  .article-index a:focus-visible {
-    outline:2px solid var(--accent);
-    outline-offset:3px;
-  }
-  .site-footer-copyright {
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-  }
-  @media (max-width:930px) {
-    .hero-copy { grid-template-columns:minmax(0,1fr) 205px; gap:42px; }
-    .hero-title-wrap h1 { font-size:52px; }
-    .reading-layout { grid-template-columns:140px minmax(0,680px); gap:42px; }
-    .proof-board { grid-template-columns:1fr; }
-    .theorem-pane {
-      min-height:0;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:30px;
-      align-items:end;
-      border-right:0;
-      border-bottom:1px solid #464a43;
-    }
-    .theorem-formula { margin:22px 0 0; }
-    .theorem-note { justify-self:end; }
-  }
-  @media (max-width:760px) {
-    html { scroll-padding-top:150px; }
-    body { overflow-x:hidden; }
-    header nav {
-      padding:12px 20px 14px !important;
-      flex-wrap:wrap !important;
-      align-items:flex-start !important;
-      justify-content:flex-start !important;
-      gap:10px 14px !important;
-    }
-    header nav > a { width:100% !important; align-items:flex-start !important; gap:8px !important; }
-    header nav > a span:first-child { font-size:19px !important; line-height:1 !important; }
-    header nav > a span:nth-child(2) {
-      max-width:18ch !important;
-      font-size:9.5px !important;
-      line-height:1.25 !important;
-    }
-    header nav > div {
-      width:100% !important;
-      flex-wrap:wrap !important;
-      justify-content:flex-start !important;
-      gap:10px 15px !important;
-      font-size:11px !important;
-      line-height:1.3 !important;
-    }
-    .page-main { max-width:none; padding:0 20px; }
-    .project-hero { padding:50px 0 38px; }
-    .hero-topline { align-items:flex-start; margin-bottom:31px; }
-    .hero-copy { grid-template-columns:1fr; gap:30px; }
-    .hero-title-wrap { padding-left:18px; }
-    .hero-title-wrap h1 { font-size:43px; line-height:1.06; }
-    .hero-deck { font-size:19px; }
-    .project-facts {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:0 20px;
-      padding-top:21px;
-      border-top:1px solid var(--border);
-    }
-    .project-facts div:nth-child(2) { border-top:0; }
-    .hero-actions { padding-left:21px; }
-    .proof-board { margin-top:28px; }
-    .theorem-pane {
-      grid-template-columns:1fr;
-      gap:10px;
-      padding:28px 24px 25px;
-    }
-    .theorem-formula { margin:20px 0; font-size:27px; }
-    .theorem-note { justify-self:start; }
-    .dependency-pane { padding:28px 24px 25px; }
-    .board-path,
-    .board-branch {
-      grid-template-columns:1fr;
-      width:100%;
-      margin-left:0;
-    }
-    .board-branch { margin-top:20px; padding-top:20px; }
-    .board-arrow { min-height:18px; transform:rotate(90deg); }
-    .board-node strong { min-height:0; }
-    .reading-layout {
-      grid-template-columns:1fr;
-      gap:48px;
-      padding:56px 0 64px;
-    }
-    .article-index {
-      position:static;
-      display:grid;
-      grid-template-columns:1fr;
-      font-size:9.5px;
-    }
-    .article-index nav {
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-    }
-    .article-index nav a:nth-child(odd) { padding-right:10px; }
-    .article-index nav a:nth-child(even) {
-      padding-left:10px;
-      border-left:1px solid var(--border2);
-    }
-    .index-meta {
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:0 20px;
-    }
-    .article-body p { font-size:18px; line-height:1.68; }
-    .article-body .lead { padding-left:20px; font-size:21px; line-height:1.58; }
-    .article-section { padding-top:52px; }
-    .section-heading { grid-template-columns:34px minmax(0,1fr); gap:12px; }
-    .section-heading h2 { font-size:30px; }
-    .status-row { grid-template-columns:1fr; gap:8px; }
-    .status-row p { font-size:17px; }
-    .code-sample pre { font-size:11.5px; }
-    .repo-band { grid-template-columns:1fr; gap:22px; padding:25px 22px; }
-    .repo-link { width:100%; white-space:normal; }
-    .back-link { padding-left:0; padding-right:0; }
-  }
-  @media (max-width:420px) {
-    header nav { padding-left:16px !important; padding-right:16px !important; }
-    header nav > div { gap:9px 12px !important; }
-    .page-main { padding-left:16px; padding-right:16px; }
-    .hero-topline { flex-direction:column; gap:11px; }
-    .hero-title-wrap h1 { font-size:39px; }
-    .project-facts { grid-template-columns:1fr; }
-    .project-facts div:nth-child(2) { border-top:1px solid var(--border2); }
-    .hero-actions { flex-direction:column; align-items:flex-start; }
-    .theorem-formula { font-size:24px; }
-  }
-</style>
+<link rel="stylesheet" href="./lean-formalization.css">
 </helmet>
 
 <div class="site-shell">
-  <header style="position:sticky; top:0; z-index:50; background:var(--nav-bg); backdrop-filter:blur(8px); border-bottom:1px solid var(--border);">
-    <nav style="max-width:1080px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
-      <a href="Home.dc.html" style="text-decoration:none; display:flex; align-items:baseline; gap:12px;">
-        <span style="font-size:20px; font-weight:500;">Qiang Wu</span>
-        <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);">Probability · Stat. Physics</span>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="site-identity" href="Home.dc.html">
+        <span class="site-name">Qiang Wu</span>
+        <span class="site-field">Probability · Stat. Physics</span>
       </a>
-      <div style="display:flex; align-items:center; gap:22px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em;">
-        <a href="Home.dc.html#about" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">About</a>
-        <a href="Publications.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Publications</a>
-        <a href="Teaching.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Teaching</a>
-        <a href="Talks.dc.html" style="text-decoration:none; color:var(--navlink); padding-bottom:2px; border-bottom:1px solid transparent;" style-hover="color:var(--accent); border-bottom:1px solid var(--accent);">Talks</a>
-        <a href="LeanFormalization.dc.html" aria-current="page" style="text-decoration:none; color:var(--accent); padding-bottom:2px; border-bottom:1px solid var(--accent);">Lean Formalization</a>
+      <div class="site-links">
+        <a href="Home.dc.html#about">About</a>
+        <a href="Publications.dc.html">Publications</a>
+        <a href="Teaching.dc.html">Teaching</a>
+        <a href="Talks.dc.html">Talks</a>
+        <a href="LeanFormalization.dc.html" aria-current="page">Lean Formalization</a>
       </div>
     </nav>
   </header>
 
-  <main class="page-main">
-    <section class="project-hero">
-      <div class="hero-topline">
-        <span class="hero-overline">Research notebook · Spin glass formalization · Project 01</span>
-        <span class="hero-status">Active formalization</span>
+  <nav class="section-nav" aria-label="Lean formalization">
+    <div class="section-nav-inner">
+      <a class="section-title" href="LeanFormalization.dc.html">Lean Formalization</a>
+      <div class="section-tabs">
+        <a href="LeanFormalization.dc.html" aria-current="page">All projects</a>
+        <a href="LeanParisiFormula.dc.html">Parisi formula</a>
       </div>
-      <div class="hero-copy">
-        <div class="hero-title-wrap">
-          <h1>Formalizing the Parisi Formula in Lean</h1>
-          <p class="hero-deck">A computer-checked development of Talagrand's proof for the Sherrington-Kirkpatrick spin glass model.</p>
-        </div>
-        <dl class="project-facts">
-          <div><dt>Model</dt><dd>SK spin glass</dd></div>
-          <div><dt>Route</dt><dd>Talagrand, 2006</dd></div>
-          <div><dt>System</dt><dd>Lean 4 · Mathlib</dd></div>
-          <div><dt>Updated</dt><dd>September 2026</dd></div>
-        </dl>
+    </div>
+  </nav>
+
+  <main class="lean-main">
+    <section class="collection-intro">
+      <div>
+        <p class="eyebrow">Computer-checked mathematics</p>
+        <h1>Lean Formalization</h1>
+        <p class="intro">A growing collection of formalization projects in probability theory, statistical physics, and related mathematics.</p>
       </div>
-      <div class="hero-actions">
-        <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula"><span>Working repository</span>&nbsp;&#8599;</a>
-        <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md"><span>Detailed roadmap</span>&nbsp;&#8599;</a>
+      <div class="collection-count" aria-label="One active project">
+        <strong>01</strong>
+        active project
       </div>
     </section>
 
-    <figure class="proof-board" aria-labelledby="proof-board-caption">
-      <div class="theorem-pane">
-        <div>
-          <span class="board-label">The target</span>
-          <div class="theorem-formula">lim<sub>N &rarr; &infin;</sub> F<sub>N</sub>(&beta;, h)<br>= inf<sub>m,q</sub> P(&beta;, h; m, q)</div>
-        </div>
-        <p class="theorem-note">The thermodynamic free entropy equals the Parisi variational value.</p>
+    <section class="project-index" aria-labelledby="project-notes-heading">
+      <div class="list-heading">
+        <h2 id="project-notes-heading">Project notes</h2>
+        <span>Newest first</span>
       </div>
-      <div class="dependency-pane">
-        <span class="board-label">Proof dependency map</span>
-        <div class="board-path">
-          <div class="board-node checked">
-            <strong>Parisi recursion</strong>
-            <span class="node-state">Checked</span>
+
+      <article class="project-row">
+        <div class="project-number">
+          <strong>01</strong>
+          <span>In progress</span>
+        </div>
+
+        <div class="project-copy">
+          <p class="project-topics">Spin glasses · Lean 4 · Mathlib</p>
+          <h3><a href="LeanParisiFormula.dc.html">Formalizing the Parisi Formula in Lean</a></h3>
+          <p class="project-summary">A computer-checked development of Talagrand's proof for the Sherrington-Kirkpatrick spin glass model, with the completed results and remaining frontier recorded explicitly.</p>
+          <div class="project-meta">
+            <span>Updated September 2026</span>
+            <span>Talagrand's 2006 route</span>
           </div>
-          <span class="board-arrow" aria-hidden="true">&#8594;</span>
-          <div class="board-node checked">
-            <strong>Guerra identity</strong>
-            <span class="node-state">Checked</span>
-          </div>
-          <span class="board-arrow" aria-hidden="true">&#8594;</span>
-          <div class="board-node checked">
-            <strong>RSB upper bound</strong>
-            <span class="node-state">Checked</span>
+          <div class="project-links">
+            <a href="LeanParisiFormula.dc.html">Read project note&nbsp;&#8594;</a>
+            <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula">Working repository&nbsp;&#8599;</a>
           </div>
         </div>
-        <div class="board-branch">
-          <div class="board-node active">
-            <strong>Theorem 2.2</strong>
-            <span class="node-state">In progress</span>
-          </div>
-          <span class="board-arrow" aria-hidden="true">&#8594;</span>
-          <div class="board-node pending">
-            <strong>Full formula</strong>
-            <span class="node-state">Conditional</span>
-          </div>
-        </div>
-      </div>
-      <figcaption id="proof-board-caption">Checked results are shown in green. The full equality currently depends on completing Talagrand's Theorem 2.2.</figcaption>
-    </figure>
 
-    <div class="reading-layout">
-      <aside class="article-index">
-        <span class="index-title">In this note</span>
-        <nav aria-label="Article sections">
-          <a href="#overview">Overview</a>
-          <a href="#why">Why formalize</a>
-          <a href="#status">Checked results</a>
-          <a href="#frontier">Current frontier</a>
-          <a href="#reading">Read the development</a>
-        </nav>
-        <div class="index-meta">
-          <div><span>Proof assistant</span><strong>Lean 4</strong></div>
-          <div><span>Primary source</span><strong>Talagrand's 2006 proof</strong></div>
-          <div><span>Repository</span><strong>Open working source</strong></div>
-        </div>
-      </aside>
-
-      <article class="article-body">
-        <section id="overview" class="article-opening">
-          <p class="lead">Spin glasses turn simple random interactions into a difficult global geometry. The Parisi formula identifies the limiting free entropy of the SK model through a variational principle. This project is translating Talagrand's proof into Lean 4, where every deduction is checked by the proof assistant.</p>
-
-          <p>The <a target="_blank" rel="noopener" href="https://annals.math.princeton.edu/2006/163-1/p04">Parisi formula</a> is one of the central results in the mathematical theory of spin glasses. Michel Talagrand's proof combines ideas from probability, analysis, and statistical physics, including Gaussian integration by parts, recursive transforms, interpolation, and control of replica overlaps.</p>
-        </section>
-
-        <section id="why" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">01</span>
-            <h2>Why formalize this proof?</h2>
-          </div>
-          <p>Proofs in spin glass theory often compress substantial analytic detail. A differentiation under an expectation may rely on measurability, integrability, domination, continuity, and endpoint identities that are natural to a specialist but remain implicit on paper. Lean requires each of these dependencies to be stated and verified.</p>
-
-          <p>That extra precision serves two purposes. It gives an independently checkable proof artifact, and it exposes the reusable mathematical infrastructure needed to formalize more results in probability and statistical physics. A formal proof does not replace a readable mathematical explanation; it complements one by making the logical chain mechanically auditable.</p>
-        </section>
-
-        <section id="status" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">02</span>
-            <h2>What is checked now</h2>
-          </div>
-          <p>The development follows Talagrand's 2006 proof in the SK model with exact covariance. Completed results are protected by build-time axiom checks, while unfinished targets remain explicit in the repository.</p>
-
-          <div class="status-list" aria-label="Current formalization status">
-            <div class="status-row">
-              <span class="status-word checked">Checked</span>
-              <p>The SK version of Theorem 2.1, Guerra's identity, including the nonnegative remainder estimate.</p>
-            </div>
-            <div class="status-row">
-              <span class="status-word checked">Checked</span>
-              <p>Guerra's finite-volume replica-symmetry-breaking upper bound and its thermodynamic upper-bound consequence.</p>
-            </div>
-            <div class="status-row">
-              <span class="status-word checked">Checked</span>
-              <p>The conditional deduction of the Parisi formula from Theorems 2.1 and 2.2, together with the supporting Parisi recursion and Gaussian calculus.</p>
-            </div>
-            <div class="status-row">
-              <span class="status-word open">In progress</span>
-              <p>Talagrand's Theorem 2.2. The principal remaining input is the coupled-replica overlap concentration estimate.</p>
-            </div>
-          </div>
-
-          <div class="code-sample" aria-label="Excerpt from the Lean formalization">
-            <span class="code-label">Targets/Talagrand.lean</span>
-            <pre><code>theorem guerra_rsb_bound ... :
-    free_entropy ... &le; parisiFunctional s &beta; h := by
-  obtain &lang;hcont, Rem, hRem, hderiv&rang; :=
-    guerra_identity hN &beta; h sk s
-  ...</code></pre>
-          </div>
-        </section>
-
-        <section id="frontier" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">03</span>
-            <h2>The current frontier</h2>
-          </div>
-          <p>The full Parisi formula is formalized modulo Theorem 2.2. The remaining work centers on the interpolation and optimality estimates that establish coupled-replica overlap concentration. The later convergence deduction from that concentration input is already represented in Lean.</p>
-
-          <p>This boundary is deliberately visible: a successful build checks the completed results, but it is not presented as certification of the unfinished theorem. The repository's roadmap records which statements are axiom-clean, which deductions are conditional, and where proof placeholders remain.</p>
-        </section>
-
-        <section id="reading" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">04</span>
-            <h2>Reading the development</h2>
-          </div>
-          <p>The main proof route begins in <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean"><code>Targets/Talagrand.lean</code></a>. The <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">Guerra audit</a> checks dependencies of the completed results, while the <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> and <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/blueprint/blueprint.tex">blueprint</a> connect the Lean files to the mathematical proof.</p>
-
-          <p>The project uses <a target="_blank" rel="noopener" href="https://lean-lang.org/">Lean 4</a> and Mathlib, together with existing formalized spin glass infrastructure. Source credits and pinned dependencies are documented in the repository.</p>
-        </section>
-
-        <section class="repo-band" aria-labelledby="repo-heading">
-          <div>
-            <span class="board-label">Open development</span>
-            <h3 id="repo-heading">Follow the working proof on GitHub</h3>
-            <p>The source, detailed progress notes, and verification commands are available in the public repository.</p>
-          </div>
-          <a class="repo-link" target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula">View repository&nbsp;&#8599;</a>
-        </section>
-
-        <div class="article-notes">
-          <span class="board-label">Reference</span>
-          <p>Michel Talagrand, <a target="_blank" rel="noopener" href="https://annals.math.princeton.edu/2006/163-1/p04"><em>The Parisi formula</em></a>, Annals of Mathematics 163 (2006), 221-263.</p>
+        <div class="project-progress">
+          <span>Current status</span>
+          <strong>Guerra upper bound checked</strong>
+          <p>Theorem 2.2 remains the principal unfinished input to the full formula.</p>
         </div>
       </article>
-    </div>
+    </section>
 
-    <div class="back-link">
-      <a href="Home.dc.html">&#8592; Back to home</a>
-    </div>
+    <section class="collection-note" aria-labelledby="about-collection-heading">
+      <h2 id="about-collection-heading">About this collection</h2>
+      <p>Each project note gives the mathematical setting, the results currently checked in Lean, the remaining proof boundary, and links to the working source. New formalization projects will appear here as they develop.</p>
+    </section>
   </main>
 
   <footer class="site-footer">
