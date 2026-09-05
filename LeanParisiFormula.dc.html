@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Qiang Wu's Lean formalization of Talagrand's proof of the Parisi formula for the Sherrington-Kirkpatrick spin glass model.">
-<title>Parisi Formula in Lean | Qiang Wu</title>
+<meta name="description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; Theorem 2.2 remains open.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Parisi formula in Lean | Qiang Wu">
+<meta property="og:description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; Theorem 2.2 remains open.">
+<meta property="og:url" content="https://qiangwu2.github.io/martingale/LeanParisiFormula.dc.html">
+<meta property="og:image" content="https://qiangwu2.github.io/martingale/assets/parisi-landscape.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1774">
+<meta property="og:image:height" content="887">
+<meta property="og:image:alt" content="An ink-and-paper illustration of a spin-glass landscape, with nested contour basins and upward- and downward-pointing spin needles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Parisi formula in Lean | Qiang Wu">
+<meta name="twitter:description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; Theorem 2.2 remains open.">
+<meta name="twitter:image" content="https://qiangwu2.github.io/martingale/assets/parisi-landscape.png">
+<meta name="twitter:image:alt" content="An ink-and-paper illustration of a spin-glass landscape, with nested contour basins and upward- and downward-pointing spin needles.">
+<link rel="canonical" href="https://qiangwu2.github.io/martingale/LeanParisiFormula.dc.html">
+<title>The Parisi formula in Lean | Qiang Wu</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -12,170 +27,153 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./lean-formalization.css">
 </helmet>
-
-<div class="site-shell">
+<div class="lean-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <nav class="site-nav" aria-label="Main navigation">
-      <a class="site-identity" href="Home.dc.html">
-        <span class="site-name">Qiang Wu</span>
-        <span class="site-field">Probability · Stat. Physics</span>
-      </a>
+      <a class="site-identity" href="Home.dc.html">Qiang Wu</a>
       <div class="site-links">
         <a href="Home.dc.html#about">About</a>
         <a href="Publications.dc.html">Publications</a>
         <a href="Teaching.dc.html">Teaching</a>
         <a href="Talks.dc.html">Talks</a>
-        <a href="LeanFormalization.dc.html" aria-current="page">Lean Formalization</a>
+        <a href="LeanFormalization.dc.html" aria-current="location">Lean Formalization</a>
       </div>
     </nav>
   </header>
-
-  <nav class="section-nav" aria-label="Lean formalization">
-    <div class="section-nav-inner">
-      <a class="section-title" href="LeanFormalization.dc.html">Lean Formalization</a>
-      <div class="section-tabs">
-        <a href="LeanFormalization.dc.html">All projects</a>
-        <a href="LeanParisiFormula.dc.html" aria-current="page">Parisi formula</a>
-      </div>
-    </div>
-  </nav>
-
-  <main class="article-main">
-    <header class="article-header">
-      <a class="back-to-index" href="LeanFormalization.dc.html">&#8592; All projects</a>
-      <p class="article-kicker">Project 01 · Spin glasses · In progress</p>
-      <h1>Formalizing the Parisi Formula in Lean</h1>
-      <p class="article-deck">A computer-checked development of Talagrand's proof for the Sherrington-Kirkpatrick spin glass model.</p>
-      <dl class="article-facts">
-        <div><dt>Model</dt><dd>SK spin glass</dd></div>
-        <div><dt>Route</dt><dd>Talagrand, 2006</dd></div>
-        <div><dt>System</dt><dd>Lean 4 · Mathlib</dd></div>
-        <div><dt>Updated</dt><dd>September 2026</dd></div>
-      </dl>
+  <main class="reading-column" id="main-content" tabindex="-1">
+    <header class="note-header">
+      <a class="back-link" href="LeanFormalization.dc.html">← Lean formalization</a>
+      <h1>The Parisi formula<br>in Lean</h1>
+      <p class="lede">Following Talagrand’s proof, one checked argument at a time.</p>
+      <p class="note-meta">Qiang Wu <span aria-hidden="true">·</span> Updated <time datetime="2026-09-05">5 September 2026</time></p>
     </header>
 
-    <div class="article-layout">
-      <aside class="article-index">
-        <span class="article-index-title">In this note</span>
-        <nav aria-label="Article sections">
-          <a href="#overview">Overview</a>
-          <a href="#why">Why formalize</a>
-          <a href="#status">Checked results</a>
-          <a href="#frontier">Current frontier</a>
-          <a href="#reading">Read the development</a>
-        </nav>
-        <div class="article-index-links">
-          <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula">Repository&nbsp;&#8599;</a>
-          <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">Roadmap&nbsp;&#8599;</a>
-        </div>
+    <figure class="article-hero">
+      <img src="./assets/parisi-landscape.png" width="1774" height="887" decoding="async" alt="An ink-and-paper illustration of a spin-glass landscape, with nested contour basins and upward- and downward-pointing spin needles.">
+      <figcaption>A spin-glass landscape, imagined in ink. AI-generated conceptual illustration, not a numerical simulation.</figcaption>
+    </figure>
+
+    <article class="prose" aria-label="Parisi formalization project note">
+      <p>I am working on a Lean 4 formalization of Talagrand’s proof of the Parisi formula. The project follows his 2006 <em>Annals of Mathematics</em> paper, in the Sherrington–Kirkpatrick (SK) model with exact covariance.</p>
+
+      <p>The formula identifies the limiting free entropy of the SK model with the Parisi variational value. The aim here is to formalize the published proof, reusing Mathlib and existing spin-glass libraries wherever possible.</p>
+
+      <aside class="proof-note" aria-label="Completion status">
+        <strong>The full proof is not yet complete.</strong>
+        <span>Guerra’s upper bound is proved. Talagrand’s Theorem 2.2 remains open.</span>
       </aside>
 
-      <article class="article-body">
-        <section id="overview">
-          <p class="lead">Spin glasses turn simple random interactions into a difficult global geometry. The Parisi formula identifies the limiting free entropy of the SK model through a variational principle. This project is translating Talagrand's proof into Lean 4, where every deduction is checked by the proof assistant.</p>
+      <section id="formal-statement" aria-labelledby="formal-statement-title">
+        <h2 id="formal-statement-title">What the Lean statement says</h2>
+        <p>For inverse temperature β &gt; 0 and external field <i>h</i>, the target is convergence of the expected log partition function per spin, <i>s</i><sub>N</sub> = E[log <i>Z</i><sub>N</sub>]/<i>N</i>, to the Parisi value as <i>N</i> tends to infinity. This is a theorem about a Gaussian spin system, not a numerical approximation to the variational problem.</p>
+        <p>A finite replica-symmetry-breaking scheme is represented by <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">RSBScheme</a>: overlap levels and masses, together with their ordering and endpoint conditions. The Gaussian recursion defines a functional for each scheme; <i>parisiValue</i> is its infimum over all schemes and all finite depths. The formalization already proves that this infimum is over a nonempty, bounded-below set, and that a minimizer exists at each fixed depth.</p>
+      </section>
 
-          <p>The <a target="_blank" rel="noopener" href="https://annals.math.princeton.edu/2006/163-1/p04">Parisi formula</a> is one of the central results in the mathematical theory of spin glasses. Michel Talagrand's proof combines ideas from probability, analysis, and statistical physics, including Gaussian integration by parts, recursive transforms, interpolation, and control of replica overlaps.</p>
-
-          <figure class="formula-note">
-            <span>The target</span>
-            <strong>lim<sub>N &rarr; &infin;</sub> F<sub>N</sub>(&beta;, h) = inf<sub>m,q</sub> P(&beta;, h; m, q)</strong>
-            <figcaption>The thermodynamic free entropy equals the Parisi variational value.</figcaption>
-          </figure>
-        </section>
-
-        <section id="why" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">01</span>
-            <h2>Why formalize this proof?</h2>
+      <section id="status" aria-labelledby="status-title">
+        <h2 id="status-title">Where the proof stands</h2>
+        <figure class="proof-map" aria-labelledby="proof-map-caption">
+          <div class="map-heading">
+            <span>Two routes to the same limit</span>
+            <span>Expand a step for details</span>
           </div>
-          <p>Proofs in spin glass theory often compress substantial analytic detail. A differentiation under an expectation may rely on measurability, integrability, domination, continuity, and endpoint identities that are natural to a specialist but remain implicit on paper. Lean requires each of these dependencies to be stated and verified.</p>
-
-          <p>That extra precision serves two purposes. It gives an independently checkable proof artifact, and it exposes the reusable mathematical infrastructure needed to formalize more results in probability and statistical physics. A formal proof does not replace a readable mathematical explanation; it complements one by making the logical chain mechanically auditable.</p>
-        </section>
-
-        <section id="status" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">02</span>
-            <h2>What is checked now</h2>
-          </div>
-          <p>The development follows Talagrand's 2006 proof in the SK model with exact covariance. Completed results are protected by build-time axiom checks, while unfinished targets remain explicit in the repository.</p>
-
-          <div class="status-list" aria-label="Current formalization status">
-            <div class="status-row">
-              <span class="status-label checked">Checked</span>
-              <p>The SK version of Theorem 2.1, Guerra's identity, including the nonnegative remainder estimate.</p>
+          <details class="proof-step is-checked map-foundation">
+            <summary><span class="step-title">Parisi functional &amp; fixed-depth minimizers</span><span class="step-state">Checked</span></summary>
+            <div class="step-detail">The variational value is well-defined, and the fixed-depth minimum exists. These foundations support the final argument. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">Definitions and proofs ↗</a></div>
+          </details>
+          <div class="proof-lanes">
+            <div class="proof-lane" role="group" aria-labelledby="upper-route-title">
+              <h3 id="upper-route-title">Upper-bound route</h3>
+              <ol>
+                <li><details class="proof-step is-checked">
+                  <summary><span class="step-title">Theorem 2.1</span><span class="step-subtitle">Guerra’s interpolation identity</span><span class="step-state">Checked</span></summary>
+                  <div class="step-detail">The actual interpolation has a nonnegative squared-overlap remainder and is continuous at both endpoints. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Guerra identity ↗</a></div>
+                </details></li>
+                <li><details class="proof-step is-checked">
+                  <summary><span class="step-title">Guerra’s upper bound</span><span class="step-subtitle">Finite volume → thermodynamic bound</span><span class="step-state">Checked</span></summary>
+                  <div class="step-detail">The finite-volume free entropy lies below each finite-step functional; the corresponding limsup bound is also proved. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Upper-bound deductions ↗</a></div>
+                </details></li>
+              </ol>
             </div>
-            <div class="status-row">
-              <span class="status-label checked">Checked</span>
-              <p>Guerra's finite-volume replica-symmetry-breaking upper bound and its thermodynamic upper-bound consequence.</p>
+            <div class="proof-lane" role="group" aria-labelledby="lower-route-title">
+              <h3 id="lower-route-title">Lower-bound route</h3>
+              <ol>
+                <li><details class="proof-step is-open">
+                  <summary><span class="step-title">Theorem 2.4</span><span class="step-subtitle">Uniform two-replica estimate · §§3–5</span><span class="step-state">Open · current work</span></summary>
+                  <div class="step-detail">Replica derivatives and scalar bounds are available. The combined interpolation inequality, higher mass estimates and remaining overlap cases still need to be completed. <a href="#recent-work">Recent checked ingredients ↓</a></div>
+                </details></li>
+                <li><details class="proof-step is-conditional">
+                  <summary><span class="step-title">Concentration ⇒ convergence</span><span class="step-subtitle">Proposition 2.3 and the gap estimate</span><span class="step-state">Checked implication</span></summary>
+                  <div class="step-detail">The finite-overlap deduction and convergence argument are proved under explicit hypotheses. Their missing uniform estimate is not assumed to be a completed theorem. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">Conditional convergence proof ↗</a></div>
+                </details></li>
+                <li><details class="proof-step is-open">
+                  <summary><span class="step-title">Theorem 2.2</span><span class="step-subtitle">Supply the input; close the theorem</span><span class="step-state">Open</span></summary>
+                  <div class="step-detail">The original theorem still has its proof placeholder. Closing it requires the missing estimate with all the stated scheme and time quantifiers. <a href="#lower-bound">The remaining argument ↓</a></div>
+                </details></li>
+              </ol>
             </div>
-            <div class="status-row">
-              <span class="status-label checked">Checked</span>
-              <p>The conditional deduction of the Parisi formula from Theorems 2.1 and 2.2, together with the supporting Parisi recursion and Gaussian calculus.</p>
-            </div>
-            <div class="status-row">
-              <span class="status-label progress">In progress</span>
-              <p>Talagrand's Theorem 2.2. The principal remaining input is the coupled-replica overlap concentration estimate.</p>
-            </div>
           </div>
+          <div class="map-join" aria-hidden="true">Both bounds + the variational foundations</div>
+          <details class="proof-step is-open map-goal">
+            <summary><span class="step-title">The Parisi formula</span><span class="step-subtitle">Final deduction written; still depends on Theorem 2.2</span><span class="step-state">Not yet complete</span></summary>
+            <div class="step-detail">The declaration exists, but its lower-bound dependency is unfinished. The final theorem must pass a placeholder-free dependency audit before the project can be called complete. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Final theorem and its dependencies ↗</a></div>
+          </details>
+          <figcaption id="proof-map-caption">A simplified map of the argument at the <a href="https://github.com/qiangwu2/ParisiFormula/tree/ee78153e9140ff9a4cfa51ce22a25b0ae898202d">5 September 2026 checkpoint</a>—not the full Lean dependency graph. “Checked implication” certifies a deduction, not its missing hypothesis.</figcaption>
+        </figure>
+        <p>The checked <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Guerra identity</a> expresses the interpolation derivative as an explicit correction minus a nonnegative, mass-weighted squared-overlap remainder. Integrating this identity gives the upper bound. The proof includes Gaussian integration by parts, differentiation through the finite cascade and its outer expectation, and continuity at the interpolation endpoints.</p>
+        <p>The final declaration, <i>parisi_formula</i>, already deduces convergence from this upper bound and Theorem 2.2. It still depends on the unfinished theorem: having that last deduction written in Lean does not make the full result complete.</p>
+      </section>
 
-          <div class="code-sample" aria-label="Excerpt from the Lean formalization">
-            <span class="code-label">Targets/Talagrand.lean</span>
-            <pre><code>theorem guerra_rsb_bound ... :
-    free_entropy ... &le; parisiFunctional s &beta; h := by
-  obtain &lang;hcont, Rem, hRem, hderiv&rang; :=
-    guerra_identity hN &beta; h sk s
-  ...</code></pre>
-          </div>
-        </section>
+      <section id="lower-bound" aria-labelledby="lower-bound-title">
+        <h2 id="lower-bound-title">The route to Theorem 2.2</h2>
+        <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize at their own depth and are sufficiently close to the Parisi value, Theorem 2.2 asks for convergence of the interpolated pressure on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
+        <p>The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">concentration-to-convergence argument</a> is checked: an explicit overlap-concentration hypothesis controls the interpolation remainder, and a differential inequality forces the gap to vanish. The missing input is the uniform two-replica estimate of Theorem 2.4, obtained through the interpolation and optimality arguments in Sections 3–5.</p>
+        <p>To finish that estimate, we still need to assemble the full replica-covariance derivative inequality, integrate it with endpoint control, establish the remaining uniform second-mass and optimality bounds, and cover the outstanding overlap and sign cases. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> records the checked inputs and the precise remaining obligations.</p>
+      </section>
 
-        <section id="frontier" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">03</span>
-            <h2>The current frontier</h2>
-          </div>
-          <p>The full Parisi formula is formalized modulo Theorem 2.2. The remaining work centers on the interpolation and optimality estimates that establish coupled-replica overlap concentration. The later convergence deduction from that concentration input is already represented in Lean.</p>
+      <section id="recent-work" aria-labelledby="recent-work-title">
+        <h2 id="recent-work-title">Recent work inside the formalization</h2>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/CoupledReplicaHessian.lean">Replica derivatives.</a> The Hessian of the actual nested two-replica recursion is now expressed through its normalized replica weights. Its averaged SK covariance contraction and the individual variance-level heat identities are also checked. These identify the pieces of the second interpolation; their combined inequality is still to be proved.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4USecond.lean">Scalar curvature.</a> The negative-square identity behind Talagrand’s <i>U</i>″ has been propagated through the full outer recursion. This proves −1 ≤ <i>U</i>″ ≤ 0 at interior variance, with the baseline-mass restriction below one required by the current <i>U</i>′ identity. It does not assert second derivatives at the variance endpoints.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/ParisiMassUniform.lean">Uniform mass estimates.</a> First and second mass derivatives of the scalar Gaussian transform are bounded uniformly, including mass zero. The first-derivative bound also extends through the full nested recursion with a constant independent of depth. The corresponding full nested second-derivative bound remains open.</p>
+      </section>
 
-          <p>This boundary is deliberately visible: a successful build checks the completed results, but it is not presented as certification of the unfinished theorem. The repository's roadmap records which statements are axiom-clean, which deductions are conditional, and where proof placeholders remain.</p>
-        </section>
+      <section id="approach" aria-labelledby="approach-title">
+        <h2 id="approach-title">What formalization adds</h2>
+        <figure class="formalization-workflow" aria-labelledby="workflow-caption">
+          <ol aria-label="Formalization workflow">
+            <li><strong>Read the paper</strong><span>State the lemma and its hypotheses.</span></li>
+            <li><strong>Reuse libraries</strong><span>Match existing results and conventions.</span></li>
+            <li><strong>Prove in Lean</strong><span>Fill the gaps between those results.</span></li>
+            <li><strong>Check dependencies</strong><span>Build, audit, and record the status.</span></li>
+          </ol>
+          <figcaption id="workflow-caption">The working cycle for each lemma. A failed check sends the argument back for revision.</figcaption>
+        </figure>
+        <p>Much of the work is in the analytic details: justifying differentiation under an expectation, checking integrability, and treating zero masses without dividing by zero. Mathlib supplies general analysis and probability tools; the pinned RSAT dependency supplies reusable spin-glass and finite-recursion results. Local proofs connect these results to Talagrand’s definitions, checking their hypotheses, signs and normalization.</p>
+        <p>The repository separates the supporting library from the main proof targets. Its full check script builds both and runs <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">axiom regression checks</a> on completed results. These reject dependencies on Lean’s unfinished-proof placeholder, <i>sorryAx</i>, or additional axioms beyond the standard Lean foundations. Open targets remain explicitly marked: a successful build alone is not a certificate for the full Parisi formula.</p>
+      </section>
 
-        <section id="reading" class="article-section">
-          <div class="section-heading">
-            <span class="section-number">04</span>
-            <h2>Reading the development</h2>
-          </div>
-          <p>The main proof route begins in <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean"><code>Targets/Talagrand.lean</code></a>. The <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">Guerra audit</a> checks dependencies of the completed results, while the <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> and <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/blueprint/blueprint.tex">blueprint</a> connect the Lean files to the mathematical proof.</p>
+      <section class="resources" id="source" aria-labelledby="source-title">
+        <h2 id="source-title">Explore the proof</h2>
+        <ul>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula">Source code <span aria-hidden="true">↗</span></a><span>The Lean project and build instructions.</span></li>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/blueprint/blueprint.tex">Mathematical blueprint <span aria-hidden="true">↗</span></a><span>The argument and its formalization status.</span></li>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/PROVENANCE.md">Libraries and credits <span aria-hidden="true">↗</span></a><span>Reused results and source provenance.</span></li>
+        </ul>
+      </section>
 
-          <p>The project uses <a target="_blank" rel="noopener" href="https://lean-lang.org/">Lean 4</a> and Mathlib, together with existing formalized spin glass infrastructure. Source credits and pinned dependencies are documented in the repository.</p>
-        </section>
-
-        <section class="article-note" aria-labelledby="working-proof-heading">
-          <span class="article-note-label">Open development</span>
-          <h3 id="working-proof-heading">Follow the working proof</h3>
-          <p>The source, detailed progress notes, and verification commands are available in the public repository.</p>
-          <div class="article-note-links">
-            <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula">View repository&nbsp;&#8599;</a>
-            <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">Detailed roadmap&nbsp;&#8599;</a>
-          </div>
-        </section>
-
-        <div class="reference-note">
-          <span class="article-note-label">Reference</span>
-          <p>Michel Talagrand, <a target="_blank" rel="noopener" href="https://annals.math.princeton.edu/2006/163-1/p04"><em>The Parisi formula</em></a>, Annals of Mathematics 163 (2006), 221-263.</p>
-        </div>
-      </article>
-    </div>
+      <p class="reference" id="reference">Michel Talagrand, <a href="https://annals.math.princeton.edu/2006/163-1/p04"><em>The Parisi formula</em></a>, <em>Annals of Mathematics</em> 163 (2006), 221–263.</p>
+    </article>
   </main>
-
   <footer class="site-footer">
-    <nav class="site-footer-links" aria-label="External profiles">
-      <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=stUkcCoAAAAJ&amp;hl=en" aria-label="Google Scholar" title="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a>
-    </nav>
-    <span class="site-footer-copyright">© 2026 Qiang Wu</span>
+    <span>© 2026 Qiang Wu</span>
+    <div>
+      <a href="https://scholar.google.com/citations?user=stUkcCoAAAAJ&amp;hl=en">Google Scholar</a>
+      <a href="https://github.com/qiangwu2">GitHub</a>
+    </div>
   </footer>
 </div>
 </x-dc>

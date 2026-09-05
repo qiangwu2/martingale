@@ -3,8 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Qiang Wu's Lean formalization projects in probability theory and statistical physics.">
-<title>Lean Formalization | Qiang Wu</title>
+<meta name="description" content="Qiang Wu’s formalization work in probability and statistical physics, beginning with Talagrand’s proof of the Parisi formula.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lean formalization | Qiang Wu">
+<meta property="og:description" content="Qiang Wu’s formalization work in probability and statistical physics, beginning with Talagrand’s proof of the Parisi formula.">
+<meta property="og:url" content="https://qiangwu2.github.io/martingale/LeanFormalization.dc.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lean formalization | Qiang Wu">
+<meta name="twitter:description" content="Qiang Wu’s formalization work in probability and statistical physics, beginning with Talagrand’s proof of the Parisi formula.">
+<link rel="canonical" href="https://qiangwu2.github.io/martingale/LeanFormalization.dc.html">
+<title>Lean formalization | Qiang Wu</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -12,18 +20,14 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./lean-formalization.css">
 </helmet>
-
-<div class="site-shell">
+<div class="lean-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <nav class="site-nav" aria-label="Main navigation">
-      <a class="site-identity" href="Home.dc.html">
-        <span class="site-name">Qiang Wu</span>
-        <span class="site-field">Probability · Stat. Physics</span>
-      </a>
+      <a class="site-identity" href="Home.dc.html">Qiang Wu</a>
       <div class="site-links">
         <a href="Home.dc.html#about">About</a>
         <a href="Publications.dc.html">Publications</a>
@@ -33,75 +37,34 @@
       </div>
     </nav>
   </header>
+  <main class="reading-column collection" id="main-content" tabindex="-1">
+    <header class="note-header">
+      <p class="eyebrow">Computer-checked mathematics</p>
+      <h1>Lean formalization</h1>
+      <p class="lede">Projects in probability and statistical physics.</p>
+    </header>
 
-  <nav class="section-nav" aria-label="Lean formalization">
-    <div class="section-nav-inner">
-      <a class="section-title" href="LeanFormalization.dc.html">Lean Formalization</a>
-      <div class="section-tabs">
-        <a href="LeanFormalization.dc.html" aria-current="page">All projects</a>
-        <a href="LeanParisiFormula.dc.html">Parisi formula</a>
-      </div>
-    </div>
-  </nav>
+    <p class="collection-intro">I use Lean to make mathematical arguments precise and mechanically checkable. These notes describe the projects, what has been proved, and what remains to be done.</p>
 
-  <main class="lean-main">
-    <section class="collection-intro">
-      <div>
-        <p class="eyebrow">Computer-checked mathematics</p>
-        <h1>Lean Formalization</h1>
-        <p class="intro">A growing collection of formalization projects in probability theory, statistical physics, and related mathematics.</p>
-      </div>
-      <div class="collection-count" aria-label="One active project">
-        <strong>01</strong>
-        active project
-      </div>
-    </section>
-
-    <section class="project-index" aria-labelledby="project-notes-heading">
-      <div class="list-heading">
-        <h2 id="project-notes-heading">Project notes</h2>
-        <span>Newest first</span>
-      </div>
-
-      <article class="project-row">
-        <div class="project-number">
-          <strong>01</strong>
-          <span>In progress</span>
-        </div>
-
-        <div class="project-copy">
-          <p class="project-topics">Spin glasses · Lean 4 · Mathlib</p>
-          <h3><a href="LeanParisiFormula.dc.html">Formalizing the Parisi Formula in Lean</a></h3>
-          <p class="project-summary">A computer-checked development of Talagrand's proof for the Sherrington-Kirkpatrick spin glass model, with the completed results and remaining frontier recorded explicitly.</p>
-          <div class="project-meta">
-            <span>Updated September 2026</span>
-            <span>Talagrand's 2006 route</span>
-          </div>
-          <div class="project-links">
-            <a href="LeanParisiFormula.dc.html">Read project note&nbsp;&#8594;</a>
-            <a target="_blank" rel="noopener" href="https://github.com/qiangwu2/ParisiFormula">Working repository&nbsp;&#8599;</a>
-          </div>
-        </div>
-
-        <div class="project-progress">
-          <span>Current status</span>
-          <strong>Guerra upper bound checked</strong>
-          <p>Theorem 2.2 remains the principal unfinished input to the full formula.</p>
+    <section class="project-list" aria-labelledby="projects-title">
+      <h2 class="eyebrow" id="projects-title">Current project</h2>
+      <article class="project">
+        <p class="project-meta">Spin glasses <span aria-hidden="true">·</span> Work in progress</p>
+        <h2><a href="LeanParisiFormula.dc.html">The Parisi formula in Lean <span aria-hidden="true">↗</span></a></h2>
+        <p>A formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; the lower-bound argument through Theorem 2.2 is still in progress.</p>
+        <div class="project-links">
+          <a href="LeanParisiFormula.dc.html">Read the project note <span aria-hidden="true">→</span></a>
+          <a href="https://github.com/qiangwu2/ParisiFormula">Source on GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </article>
     </section>
-
-    <section class="collection-note" aria-labelledby="about-collection-heading">
-      <h2 id="about-collection-heading">About this collection</h2>
-      <p>Each project note gives the mathematical setting, the results currently checked in Lean, the remaining proof boundary, and links to the working source. New formalization projects will appear here as they develop.</p>
-    </section>
   </main>
-
   <footer class="site-footer">
-    <nav class="site-footer-links" aria-label="External profiles">
-      <a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=stUkcCoAAAAJ&amp;hl=en" aria-label="Google Scholar" title="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a>
-    </nav>
-    <span class="site-footer-copyright">© 2026 Qiang Wu</span>
+    <span>© 2026 Qiang Wu</span>
+    <div>
+      <a href="https://scholar.google.com/citations?user=stUkcCoAAAAJ&amp;hl=en">Google Scholar</a>
+      <a href="https://github.com/qiangwu2">GitHub</a>
+    </div>
   </footer>
 </div>
 </x-dc>
