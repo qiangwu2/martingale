@@ -60,7 +60,7 @@
     <article class="prose" aria-label="Parisi formalization project note">
       <p>I am working on a Lean 4 formalization of Talagrand’s proof of the Parisi formula. The project follows his 2006 <em>Annals of Mathematics</em> paper, in the Sherrington–Kirkpatrick (SK) model with exact covariance.</p>
 
-      <p>The Parisi formula characterizes the limit of the normalized free energy of the SK model through a variational principle. The aim here is to formalize the published proof, reusing Mathlib and existing spin-glass libraries wherever possible.</p>
+      <p>The Parisi formula characterizes the limit of the free energy of the SK model through a variational principle. The aim here is to formalize the published proof, reusing Mathlib and existing spin-glass libraries wherever possible.</p>
 
       <aside class="proof-note" aria-label="Completion status">
         <strong>The full proof is not yet complete.</strong>
@@ -69,7 +69,7 @@
 
       <section id="formal-statement" aria-labelledby="formal-statement-title">
         <h2 id="formal-statement-title">What the Lean statement says</h2>
-        <p>For inverse temperature β &gt; 0 and external field <i>h</i>, the target is convergence of the normalized free energy, <i>s</i><sub>N</sub> = E[log <i>Z</i><sub>N</sub>]/<i>N</i>, to the value given by the Parisi formula as <i>N</i> tends to infinity. This is a theorem about a Gaussian spin system, not a numerical approximation to the variational problem.</p>
+        <p>For inverse temperature β &gt; 0 and external field <i>h</i>, the target is convergence of the free energy, <i>F</i><sub>N</sub> = E[log <i>Z</i><sub>N</sub>]/<i>N</i>, to the value given by the Parisi formula as <i>N</i> tends to infinity. This is a theorem about a Gaussian spin system, not a numerical approximation to the variational problem.</p>
         <p>A <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">finite replica-symmetry-breaking scheme</a> consists of overlap levels and masses satisfying ordering and endpoint conditions. The Gaussian recursion defines the Parisi functional for each scheme; the Parisi formula takes its infimum over all schemes and all finite numbers of levels. The formalization already proves that this infimum is over a nonempty, bounded-below set, and that a minimizer exists for each fixed number of levels.</p>
       </section>
 
@@ -94,7 +94,7 @@
                 </details></li>
                 <li><details class="proof-step is-checked">
                   <summary><span class="step-title">Guerra’s upper bound</span><span class="step-subtitle">Finite volume → thermodynamic bound</span><span class="step-state">Checked</span></summary>
-                  <div class="step-detail">The normalized free energy in finite volume lies below the Parisi functional evaluated at any finite scheme; the corresponding limsup bound is also proved. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Upper-bound deductions ↗</a></div>
+                  <div class="step-detail">The free energy in finite volume lies below the Parisi functional evaluated at any finite scheme; the corresponding limsup bound is also proved. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Upper-bound deductions ↗</a></div>
                 </details></li>
               </ol>
             </div>
@@ -129,7 +129,7 @@
 
       <section id="lower-bound" aria-labelledby="lower-bound-title">
         <h2 id="lower-bound-title">The route to Theorem 2.2</h2>
-        <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize the Parisi functional at their own number of levels and whose functional values are sufficiently close to the infimum over all finite schemes, Theorem 2.2 asserts convergence of the interpolated normalized free energy on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
+        <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize the Parisi functional at their own number of levels and whose functional values are sufficiently close to the infimum over all finite schemes, Theorem 2.2 asserts convergence of the interpolated free energy on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
         <p>The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">concentration-to-convergence argument</a> is checked: an explicit overlap-concentration hypothesis controls the interpolation remainder, and a differential inequality forces the gap to vanish. The missing input is the uniform two-replica estimate of Theorem 2.4, obtained through the interpolation and optimality arguments in Sections 3–5.</p>
         <p>To finish that estimate, we still need to combine the replica derivative formulas to prove the interpolation inequality, integrate it with endpoint control, establish uniform bounds on second derivatives with respect to the mass parameters and the remaining optimality estimates, and cover the outstanding overlap and sign cases. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> records the proved results and the precise remaining steps.</p>
       </section>
