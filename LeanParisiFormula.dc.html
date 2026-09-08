@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; Theorem 2.2 remains open.">
+<meta name="description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound and Theorem 2.4 are proved; Theorem 2.2 remains open.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="The Parisi formula in Lean | Qiang Wu">
-<meta property="og:description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; Theorem 2.2 remains open.">
+<meta property="og:description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound and Theorem 2.4 are proved; Theorem 2.2 remains open.">
 <meta property="og:url" content="https://qiangwu2.github.io/martingale/LeanParisiFormula.dc.html">
 <meta property="og:image" content="https://qiangwu2.github.io/martingale/assets/parisi-landscape.png">
 <meta property="og:image:type" content="image/png">
@@ -15,7 +15,7 @@
 <meta property="og:image:alt" content="An ink-and-paper illustration of a spin-glass landscape, with nested contour basins and upward- and downward-pointing spin needles.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Parisi formula in Lean | Qiang Wu">
-<meta name="twitter:description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound is proved; Theorem 2.2 remains open.">
+<meta name="twitter:description" content="An ongoing Lean 4 formalization of Talagrand’s 2006 proof in the SK model. Guerra’s upper bound and Theorem 2.4 are proved; Theorem 2.2 remains open.">
 <meta name="twitter:image" content="https://qiangwu2.github.io/martingale/assets/parisi-landscape.png">
 <meta name="twitter:image:alt" content="An ink-and-paper illustration of a spin-glass landscape, with nested contour basins and upward- and downward-pointing spin needles.">
 <link rel="canonical" href="https://qiangwu2.github.io/martingale/LeanParisiFormula.dc.html">
@@ -49,7 +49,7 @@
       <a class="back-link" href="LeanFormalization.dc.html">← Lean formalization</a>
       <h1>The Parisi formula<br>in Lean</h1>
       <p class="lede">Following Talagrand’s proof, one checked argument at a time.</p>
-      <p class="note-meta">Qiang Wu <span aria-hidden="true">·</span> Updated <time datetime="2026-09-06">6 September 2026</time></p>
+      <p class="note-meta">Qiang Wu <span aria-hidden="true">·</span> Updated <time datetime="2026-09-07">7 September 2026</time></p>
     </header>
 
     <figure class="article-hero">
@@ -64,7 +64,7 @@
 
       <aside class="proof-note" aria-label="Completion status">
         <strong>The full proof is not yet complete.</strong>
-        <span>Guerra’s upper bound is proved. Talagrand’s Theorem 2.2 remains open.</span>
+        <span>Guerra’s upper bound and Theorem 2.4 are proved. Theorem 2.2 remains open.</span>
       </aside>
 
       <section id="formal-statement" aria-labelledby="formal-statement-title">
@@ -101,17 +101,17 @@
             <div class="proof-lane" role="group" aria-labelledby="lower-route-title">
               <h3 id="lower-route-title">Lower-bound route</h3>
               <ol>
-                <li><details class="proof-step is-open">
-                  <summary><span class="step-title">Theorem 2.4</span><span class="step-subtitle">Uniform two-replica estimate · §§3–5</span><span class="step-state">Open · current work</span></summary>
-                  <div class="step-detail">The interpolation inequalities, uniform mass-derivative bounds, quantitative optimality and stationarity after removal of repeated levels are checked. The uniform higher-derivative estimate, local quadratic overlap bounds, and remaining overlap and sign cases are still open. <a href="#recent-work">Recent checked results ↓</a></div>
+                <li><details class="proof-step is-checked">
+                  <summary><span class="step-title">Theorem 2.4</span><span class="step-subtitle">Uniform two-replica estimate · §§3–5</span><span class="step-state">Checked</span></summary>
+                  <div class="step-detail">The uniform quadratic constrained-free-energy estimate is proved at every finite replica-symmetry-breaking level, for both overlap signs and all boundary cases. Its quantifiers have the order required by Talagrand’s theorem, and its dependencies pass the axiom audit. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem24.lean">Theorem 2.4 in Lean ↗</a></div>
                 </details></li>
                 <li><details class="proof-step is-conditional">
                   <summary><span class="step-title">Concentration ⇒ convergence</span><span class="step-subtitle">Proposition 2.3 and the gap estimate</span><span class="step-state">Checked implication</span></summary>
-                  <div class="step-detail">The finite-overlap deduction and convergence argument are proved under explicit hypotheses. Their missing uniform estimate is not assumed to be a completed theorem. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">Conditional convergence proof ↗</a></div>
+                  <div class="step-detail">The finite-overlap reduction and the differential-inequality argument from overlap concentration to uniform convergence are proved. With Theorem 2.4 complete, the remaining hypothesis is the overlap-concentration estimate. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">Conditional convergence proof ↗</a></div>
                 </details></li>
                 <li><details class="proof-step is-open">
-                  <summary><span class="step-title">Theorem 2.2</span><span class="step-subtitle">Supply the input; close the theorem</span><span class="step-state">Open</span></summary>
-                  <div class="step-detail">The original theorem still has its proof placeholder. Closing it requires the missing estimate with all the stated scheme and time quantifiers. <a href="#lower-bound">The remaining argument ↓</a></div>
+                  <summary><span class="step-title">Theorem 2.2</span><span class="step-subtitle">Prove overlap concentration; close the theorem</span><span class="step-state">Open</span></summary>
+                  <div class="step-detail">The original theorem still has its proof placeholder. Its main remaining input is the overlap-concentration estimate; the reduction from Theorem 2.4 and the convergence argument are already formalized. <a href="#lower-bound">The remaining argument ↓</a></div>
                 </details></li>
               </ol>
             </div>
@@ -121,7 +121,7 @@
             <summary><span class="step-title">The Parisi formula</span><span class="step-subtitle">Final deduction written; still depends on Theorem 2.2</span><span class="step-state">Not yet complete</span></summary>
             <div class="step-detail">The declaration exists, but its lower-bound dependency is unfinished. The final theorem must pass a placeholder-free dependency audit before the project can be called complete. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Final theorem and its dependencies ↗</a></div>
           </details>
-          <figcaption id="proof-map-caption">A simplified map of the argument at the <a href="https://github.com/qiangwu2/ParisiFormula/tree/78ff79d6d36dc4b626dad8c1035f70b4970c7e69">6 September 2026 checkpoint</a>—not the full Lean dependency graph. “Checked implication” certifies a deduction, not its missing hypothesis.</figcaption>
+          <figcaption id="proof-map-caption">A simplified map of the argument at the <a href="https://github.com/qiangwu2/ParisiFormula/tree/22673f3a526aaa0c58fa36baabef4563113d915d">7 September 2026 checkpoint</a>—not the full Lean dependency graph. “Checked implication” certifies a deduction, not its missing hypothesis.</figcaption>
         </figure>
         <p>The checked <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Talagrand.lean">Guerra identity</a> expresses the interpolation derivative as an explicit correction minus a nonnegative, mass-weighted squared-overlap remainder. Integrating this identity gives the upper bound. The proof includes Gaussian integration by parts, differentiation through the finite cascade and its outer expectation, and continuity at the interpolation endpoints.</p>
         <p>The final deduction of the Parisi formula from this upper bound and Theorem 2.2 is already written in Lean. It still depends on the unfinished theorem: having that last deduction written does not make the full result complete.</p>
@@ -130,17 +130,16 @@
       <section id="lower-bound" aria-labelledby="lower-bound-title">
         <h2 id="lower-bound-title">The route to Theorem 2.2</h2>
         <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize the Parisi functional at their own number of levels and whose functional values are sufficiently close to the infimum over all finite schemes, Theorem 2.2 asserts convergence of the interpolated free energy on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
-        <p>The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">concentration-to-convergence argument</a> is checked: an explicit overlap-concentration hypothesis controls the interpolation remainder, and a differential inequality forces the gap to vanish. The missing input is the uniform two-replica estimate of Theorem 2.4, obtained through the interpolation and optimality arguments in Sections 3–5.</p>
-        <p>The interpolation inequalities and the uniform first and second mass-derivative estimates are now proved. Current work concerns the uniform higher-derivative control behind Lemma 4.9 and Proposition 4.10, the local quadratic estimates of Propositions 5.1–5.2, and the remaining initial, dual and signed-overlap cases. These must still be assembled into Theorem 2.4 before the checked convergence deduction can finish Theorem 2.2. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> records the precise hypotheses and remaining steps.</p>
+        <p>The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandConvergence.lean">concentration-to-convergence argument</a> is checked: an explicit overlap-concentration hypothesis controls the interpolation remainder, and a differential inequality forces the gap to vanish. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem24.lean">uniform two-replica estimate of Theorem 2.4</a>, obtained from the interpolation and optimality arguments in Sections 3–5, is now also proved.</p>
+        <p>Theorem 2.4 has the uniformity required in the paper: one positive quadratic constant works across finite schemes, every physical level, both signs of the overlap, all breakpoints and the terminal cases, with the system-size threshold chosen afterward. The remaining central input for Theorem 2.2 is the overlap-concentration step connecting this bound to the checked convergence deduction. The <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/ROADMAP.md">roadmap</a> records the precise statement and remaining work.</p>
       </section>
 
       <section id="recent-work" aria-labelledby="recent-work-title">
         <h2 id="recent-work-title">Recent work inside the formalization</h2>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section5InterpolationBound.lean">The second interpolation.</a> The actual replica derivative formulas are now combined into the covariance inequality and integrated with endpoint control. This proves Talagrand’s estimate (5.9) and its right-interval counterpart for the SK constructions. The comparison is with 2ψ(<i>t</i>), as in the paper.</p>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4QuantitativeOptimality.lean">Quantitative optimality: Proposition 4.6.</a> The first and second derivatives with respect to the mass parameter are bounded through the full recursion, uniformly in the number of levels and including mass zero. Applying the resulting Taylor estimate to genuine competing schemes proves <i>f</i>(<i>u</i>) ≥ −<i>L</i>(β)√ε, with a constant independent of the number of levels, external field and adjacent mass gap.</p>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4StationarityReduction.lean">Stationarity and repeated levels.</a> The endpoint identity in Proposition 4.7, <i>U</i>′(0) = <i>q</i><sub>r</sub>, now includes the final compulsory-mass level and the replica-symmetric case. Repeated interior overlap levels can be removed without changing the Parisi functional or the interpolated free energy. The reduced scheme remains a fixed-level minimizer and satisfies the stationarity identity at every level. Endpoint derivatives are stated from within the admissible interval.</p>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4HessianRegularity.lean">Endpoint regularity and curvature.</a> The identity expressing <i>U</i>″ as a negative average of a square is now accompanied by continuity of that average and inward derivative formulas at both variance endpoints. A <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section4CurvatureRegularity.lean">cubic Taylor argument gives the ε<sup>1/6</sup> curvature rate</a> in Proposition 4.10 at every level with a positive overlap gap, including the initial interval, conditional on a Lipschitz bound for that same average. A bound independent of the number of levels remains to be proved; Proposition 4.10 is not yet complete.</p>
-        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section5FarLeft.lean">A strict two-replica bound.</a> For positive baseline mass, the far-left argument of Proposition 5.5 now gives a strict improvement below 2ψ(<i>t</i>) under the stated near-optimality condition. Its positive deficit is chosen before the system size and disorder. This is not yet the bound uniform in time and overlap needed for Theorem 2.4.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem24.lean">Theorem 2.4 is checked.</a> The public Lean theorem states Talagrand’s uniform quadratic bound with the required eventual-in-<i>N</i> quantifiers. It has no proof placeholder and uses only Lean’s standard foundational axioms.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section5PositiveAwayCompleteCases.lean">All positive-overlap cases</a> and the <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section5ConcreteNegativeAway.lean">negative-overlap region</a> are assembled, including the first level, zero initial overlap, <i>k</i> = 0, breakpoints and terminal padding. This closes the cases that had previously remained outside the local estimates.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section5UniformLocalRadius.lean">Uniform local control</a> is combined with the <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Section5Theorem24Assembly.lean">finite all-region assembly</a>. Taking minima over finitely many levels gives one constant before the system-size threshold, which is the quantifier order needed for the theorem.</p>
+        <p><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">Dependency checks</a> now cover the completed theorem. The full project verification succeeds, while Theorem 2.2 and three off-path legacy placeholders remain explicitly reported rather than hidden by a successful build.</p>
       </section>
 
       <section id="approach" aria-labelledby="approach-title">
@@ -162,6 +161,7 @@
         <h2 id="source-title">Explore the proof</h2>
         <ul>
           <li><a href="https://github.com/qiangwu2/ParisiFormula">Source code <span aria-hidden="true">↗</span></a><span>The Lean project and build instructions.</span></li>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem24.lean">Theorem 2.4 <span aria-hidden="true">↗</span></a><span>The completed public theorem and its axiom audit.</span></li>
           <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/blueprint/blueprint.tex">Mathematical blueprint <span aria-hidden="true">↗</span></a><span>The argument and its formalization status.</span></li>
           <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/PROVENANCE.md">Libraries and credits <span aria-hidden="true">↗</span></a><span>Reused results and source provenance.</span></li>
         </ul>
