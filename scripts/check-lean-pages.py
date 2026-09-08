@@ -95,6 +95,8 @@ def check_page(filename, proof_root):
         assert tags.count("details") == tags.count("summary") == 7
         assert "The Parisi formula is now proved in Lean." in source
         assert "Theorem 2.2" in source and "TalagrandFinal.lean" in source
+        assert "How the Lean proof is organized" in source
+        assert "Exact SK covariance" in source
         assert "Theorem 2.2 remains open." not in source
         assert "Not yet complete" not in source
         assert "<i>F</i><sub>N</sub>" in source

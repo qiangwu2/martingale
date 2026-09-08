@@ -58,7 +58,7 @@
     </figure>
 
     <article class="prose" aria-label="Parisi formalization project note">
-      <p>I am working on a Lean 4 formalization of Talagrand’s proof of the Parisi formula. The project follows his 2006 <em>Annals of Mathematics</em> paper, in the Sherrington–Kirkpatrick (SK) model with exact covariance.</p>
+      <p>I have formalized Talagrand’s proof of the Parisi formula in Lean 4. The project follows his 2006 <em>Annals of Mathematics</em> paper, in the Sherrington–Kirkpatrick (SK) model with exact covariance.</p>
 
       <p>The Parisi formula characterizes the limit of the free energy of the SK model through a variational principle. The aim here is to formalize the published proof, reusing Mathlib and existing spin-glass libraries wherever possible.</p>
 
@@ -71,6 +71,12 @@
         <h2 id="formal-statement-title">What the Lean statement says</h2>
         <p>For inverse temperature β &gt; 0 and external field <i>h</i>, the target is convergence of the free energy, <i>F</i><sub>N</sub> = E[log <i>Z</i><sub>N</sub>]/<i>N</i>, to the value given by the Parisi formula as <i>N</i> tends to infinity. This is a theorem about a Gaussian spin system, not a numerical approximation to the variational problem.</p>
         <p>A <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/Milestones.lean">finite replica-symmetry-breaking scheme</a> consists of overlap levels and masses satisfying ordering and endpoint conditions. The Gaussian recursion defines the Parisi functional for each scheme; the Parisi formula takes its infimum over all schemes and all finite numbers of levels. The formalization already proves that this infimum is over a nonempty, bounded-below set, and that a minimizer exists for each fixed number of levels.</p>
+        <div class="formula-pair" role="group" aria-label="The covariance assumption and final convergence statement">
+          <p><span>Exact SK covariance</span>Cov(<i>H</i><sub>N</sub>(σ), <i>H</i><sub>N</sub>(τ)) = (<i>N</i>β²/2) <i>R</i>(σ,τ)²</p>
+          <p><span>Final conclusion</span><i>F</i><sub>N</sub> → inf<sub><i>k,m,q</i></sub> 𝒫<sub><i>k</i></sub>(<i>m,q</i>)</p>
+        </div>
+        <p>At finite <i>N</i>, a spin configuration is represented as a function from the <i>N</i> sites to two Boolean values, then interpreted as spins ±1. The random Hamiltonian is a centered Gaussian vector in the finite-dimensional space of energies indexed by these configurations. Its covariance is specified directly by the overlap formula above, so the proof uses exactly the normalization stated by the project rather than carrying an asymptotic covariance error.</p>
+        <p>The Parisi functional is represented by Talagrand’s finite backward Gaussian recursion. The zero-mass step is implemented separately as an expectation—the correct limit of the log-Laplace transform—so schemes with a zero mass are covered without division by zero. The final infimum ranges over every finite number of replica-symmetry-breaking levels; the proof does not replace this construction with a Parisi PDE.</p>
       </section>
 
       <section id="status" aria-labelledby="status-title">
@@ -127,6 +133,16 @@
         <p>The lower-bound route is now complete as well. Theorem 2.4 feeds the overlap-concentration and convergence argument in Theorem 2.2; combining Theorem 2.2 with Guerra’s upper bound proves convergence of <i>F</i><sub>N</sub> to the value given by the Parisi formula.</p>
       </section>
 
+      <section id="lean-architecture" aria-labelledby="lean-architecture-title">
+        <h2 id="lean-architecture-title">How the Lean proof is organized</h2>
+        <ol class="architecture-list">
+          <li><strong>Interpolation and upper bound.</strong> <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandCore.lean">The core module</a> defines Talagrand’s interpolating Hamiltonian and the finite cascade. Gaussian integration by parts gives Theorem 2.1: the derivative is the derivative of the comparison function minus a nonnegative, mass-weighted squared-overlap remainder. Endpoint identities and integration yield Guerra’s upper bound.</li>
+          <li><strong>The two-replica estimate.</strong> The Section 4 and 5 modules construct the constrained two-replica interpolation, differentiate its disorder, field, variance and mass parameters, and prove the optimality estimates. The final assembly covers positive and negative overlaps, breakpoints, zero initial overlap and terminal cases, producing <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem24.lean">Theorem 2.4</a> with one constant uniform over all relevant levels.</li>
+          <li><strong>From concentration to Theorem 2.2.</strong> The quadratic gap makes overlaps away from the prescribed level exponentially unlikely. A finite reduction over the attainable Ising overlaps, Proposition 2.3 and a differential inequality then force the interpolation remainder to vanish. <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem22Integration.lean">The integration module</a> connects this chain to the exact statement of Theorem 2.2.</li>
+          <li><strong>The endpoint argument.</strong> <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandFinal.lean">The final module</a> chooses a near-optimal finite scheme, applies Theorem 2.2 at a time <i>t</i><sub>0</sub> &lt; 1, and controls the short interval from <i>t</i><sub>0</sub> to 1 using the derivative bound from Theorem 2.1. This gives the lower bound; together with Guerra’s upper bound it proves the limit of <i>F</i><sub>N</sub>.</li>
+        </ol>
+      </section>
+
       <section id="lower-bound" aria-labelledby="lower-bound-title">
         <h2 id="lower-bound-title">The route to Theorem 2.2</h2>
         <p>Talagrand’s lower-bound argument studies two replicas—two spin configurations sampled from the same random system—and controls their overlap. For schemes that minimize the Parisi functional at their own number of levels and whose functional values are sufficiently close to the infimum over all finite schemes, Theorem 2.2 asserts convergence of the interpolated free energy on every interval 0 ≤ <i>t</i> ≤ <i>t</i><sub>0</sub> &lt; 1.</p>
@@ -153,7 +169,8 @@
           </ol>
           <figcaption id="workflow-caption">The working cycle for each lemma. A failed check sends the argument back for revision.</figcaption>
         </figure>
-        <p>Much of the work is in the analytic details: justifying differentiation under an expectation, checking integrability, and treating zero masses without dividing by zero. Mathlib supplies general analysis and probability tools; the RSAT library supplies reusable spin-glass and finite-recursion results. Local proofs connect these results to Talagrand’s definitions, checking their hypotheses, signs and normalization.</p>
+        <p>Much of the work is in the analytic details that a paper can compress: every differentiation through a nested Gaussian expectation needs measurability, integrability and a dominating bound; separate partial derivatives cannot silently be used as a joint chain rule; and endpoint continuity must be proved when a variance becomes zero. The proof also preserves the order of Talagrand’s quantifiers—for example, the quadratic constant in Theorem 2.4 is chosen before the sufficiently large system size.</p>
+        <p>The development reuses existing mathematics wherever its statement really matches. Mathlib supplies Gaussian integration, moment-generating-function analyticity, convexity, compactness, filters and calculus under the integral. The locked RSAT dependency supplies finite-state log-partition calculus, Gaussian integration by parts and reusable finite Gaussian-recursion machinery. The project adds the bridges to Talagrand’s normalization and the missing coupled-replica, zero-mass, signed-overlap and boundary arguments; it does not copy or modify the upstream sources.</p>
         <p>The repository separates supporting lemmas from the main theorems. Its verification script checks both and runs <a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">checks of proof dependencies</a> on completed results. These reject dependence on proof placeholders or axioms beyond the standard Lean foundations. Three older placeholders remain explicitly marked in a legacy milestones file, but none is a dependency of Theorem 2.2 or the Parisi formula.</p>
       </section>
 
@@ -161,10 +178,10 @@
         <h2 id="source-title">Explore the proof</h2>
         <ul>
           <li><a href="https://github.com/qiangwu2/ParisiFormula">Source code <span aria-hidden="true">↗</span></a><span>The Lean project and build instructions.</span></li>
-          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandTheorem24.lean">Theorem 2.4 <span aria-hidden="true">↗</span></a><span>The completed public theorem and its axiom audit.</span></li>
-          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandFinal.lean">Theorem 2.2 and the Parisi formula <span aria-hidden="true">↗</span></a><span>The completed lower-bound integration and final convergence theorem.</span></li>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/TalagrandFinal.lean">Final theorem in Lean <span aria-hidden="true">↗</span></a><span>The statement and proof that <i>F</i><sub>N</sub> converges to the value given by the Parisi formula.</span></li>
           <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/blueprint/blueprint.tex">Mathematical blueprint <span aria-hidden="true">↗</span></a><span>The argument and its formalization status.</span></li>
-          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/PROVENANCE.md">Libraries and credits <span aria-hidden="true">↗</span></a><span>Reused results and source provenance.</span></li>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/Targets/GuerraAudit.lean">Dependency audit <span aria-hidden="true">↗</span></a><span>The machine-checked guard for the completed theorem chain.</span></li>
+          <li><a href="https://github.com/qiangwu2/ParisiFormula/blob/main/docs/PROVENANCE.md">Libraries and provenance <span aria-hidden="true">↗</span></a><span>The pinned dependencies, reused results and source credits.</span></li>
         </ul>
       </section>
 

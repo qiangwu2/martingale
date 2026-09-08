@@ -131,6 +131,24 @@ h1 {
 .proof-note strong { display: block; color: var(--ink); font-weight: 600; margin-bottom: 3px; }
 .proof-note span { display: block; }
 
+.formula-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 26px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.formula-pair p { margin: 0; color: var(--ink); font-family: var(--serif); font-size: 18px; line-height: 1.55; }
+.formula-pair p > span { display: block; margin-bottom: 7px; color: var(--muted); font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.architecture-list { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: architecture; }
+.architecture-list li { position: relative; margin: 0; padding: 0 0 22px 42px; counter-increment: architecture; }
+.architecture-list li + li { padding-top: 22px; border-top: 1px solid var(--line); }
+.architecture-list li::before { position: absolute; top: 0; left: 0; color: var(--accent); font-family: var(--serif); font-size: 25px; line-height: 1; content: counter(architecture, decimal-leading-zero); }
+.architecture-list li + li::before { top: 22px; }
+.architecture-list strong { color: var(--ink); font-weight: 600; }
+
 /* Editorial figures and the source-linked proof map. */
 .article-hero { margin: 0 0 34px; }
 .article-hero img { display: block; width: 100%; height: auto; background: var(--note); }
@@ -191,6 +209,7 @@ h1 {
 .formalization-workflow li span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.65; }
 
 @media (max-width: 560px) {
+  .formula-pair { grid-template-columns: 1fr; }
   .proof-lanes { grid-template-columns: 1fr; gap: 26px; padding-top: 0; margin-top: 26px; }
   .map-foundation::after, .proof-lanes::before, .proof-lane::before, .proof-lane::after, .map-join::before { display: none; }
   .proof-lane h3 { text-align: left; }
