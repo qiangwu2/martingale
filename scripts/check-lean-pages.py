@@ -93,9 +93,10 @@ def check_page(filename, proof_root):
     assert meta["og:url"] == ORIGIN + filename
     if filename == PAGES[1]:
         assert tags.count("details") == tags.count("summary") == 7
-        assert "The full proof is not yet complete." in source
-        assert "Checked implication" in source and "Not yet complete" in source
-        assert "Theorem 2.2 remains open." in source
+        assert "The Parisi formula is now proved in Lean." in source
+        assert "Theorem 2.2" in source and "TalagrandFinal.lean" in source
+        assert "Theorem 2.2 remains open." not in source
+        assert "Not yet complete" not in source
         assert "<i>F</i><sub>N</sub>" in source
         assert "free entropy" not in source.lower() and "parisiValue" not in source
         assert meta["og:image"] == meta["twitter:image"] == ORIGIN + "assets/parisi-landscape.png"
