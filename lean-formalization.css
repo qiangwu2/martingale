@@ -1,4 +1,4 @@
-/* Shared only by the two Lean formalization pages. */
+/* Shared by the Lean formalization and AI research pages. */
 :root {
   --paper: #faf9f7;
   --ink: #242927;
@@ -254,6 +254,7 @@ h1 {
 .project h2 span { display: inline-block; margin-left: 5px; color: var(--accent); font-size: 20px; }
 .project > p:not(.project-meta) { margin: 17px 0 23px; color: var(--body); font-size: 16px; line-height: 1.8; }
 .project-links { display: flex; flex-wrap: wrap; gap: 14px 28px; font-size: 14px; line-height: 1.6; }
+.ai-research-page .project + .project { border-top: 0; padding-top: 32px; }
 
 .site-footer {
   display: flex;
